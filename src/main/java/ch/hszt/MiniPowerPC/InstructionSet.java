@@ -1,6 +1,6 @@
 package ch.hszt.MiniPowerPC;
 
-public enum InstructionSet {
+public enum InstructionSet{
 	CLR, 
 	ADD, 
 	ADDD,

@@ -99,4 +99,74 @@ public class Instruction {
 	public InstructionSet getInstruction() {
 		return instruction;
 	}
+	
+	public void runInstruction(MiniPowerPC emu){
+		switch(instruction){
+		case CLR:
+			emu.clr(rnr);
+			break;
+		case ADD:
+			emu.add(rnr);
+			break;
+		case ADDD:
+			emu.add(number);
+			break;
+		case INC:
+			emu.inc();
+			break;
+		case DEC:
+			emu.dec();
+			break;
+		case LWDD:  
+			emu.lwdd(rnr, memoryAddress);
+			break;
+		case SWDD:
+			emu.swdd(rnr, memoryAddress);
+			break;
+		case SRA:
+			
+			break;
+		case SLA:
+			
+			break;
+		case SRL:
+			
+			break;
+		case SLL:
+			
+			break;
+		case AND:
+			
+			break;
+		case OR:
+			
+			break;
+		case NOT:
+			
+			break;
+		case BZ:
+			
+			break;
+		case BNZ:
+			
+			break;
+		case BC:
+			
+			break;
+		case B:
+			
+			break;
+		case BZD:
+			
+			break;
+		case BNZD:
+			
+			break;
+		case BCD:
+			
+			break;
+		case BD:
+				
+		}
+	}
 }
