@@ -1,10 +1,10 @@
 package ch.hszt.MiniPowerPC;
 
 public class MiniPowerPC {
-	int carryFlag = 0;
+	short carryFlag = 0;
 	MemoryEntry[] memory = new MemoryEntry[1023];
-	short[] register = new short[3]; //register[0] = akku, 1-3 register
-	int instructionCounter;
+	MemoryEntry[] register = new MemoryEntry[3]; //register[0] = akku, 1-3 register
+	short instructionCounter;
 	
 	public MiniPowerPC(MemoryEntry[] memory){
 		this.memory = memory;
@@ -12,7 +12,16 @@ public class MiniPowerPC {
 	
 	public void run(){
 		instructionCounter = 100;
+		Instruction i;
 		
+		
+		while(instructionCounter < 500){
+			if(memory[instructionCounter] != null){
+				i = Instruction.parseInstruction(memory[instructionCounter]);
+				i.run(this);
+			}
+			instructionCounter++;
+		}
 	}
 	
 	/**
@@ -20,7 +29,7 @@ public class MiniPowerPC {
 	 * @param rnr Registernummer (0 - 3)
 	 */
 	public void clr(short rnr){
-		register[rnr] = 0;
+		register[rnr].setValue(0);
 	}
 	
 	/**
@@ -72,18 +81,210 @@ public class MiniPowerPC {
 	}
 	
 	/**
-	 * Akku := Akku /2
+	 * Arithmetical shift right
 	 */
 	public void sra(){
-		String b = Integer.toBinaryString((int)register[0]);
+		MemoryEntry m = new MemoryEntry(register[0]);
+		String b = m.getBinaryString();
 		carryFlag = Short.parseShort(b.substring(b.length()-1));
-		register[0]>>=1;
+		
+		char[] ca = b.toCharArray();
+		
+		//shift left (dont touch first 2 bits)
+		for(int i = 3;i < ca.length;i++){
+			ca[i] = ca[i-1];
+		}
+		//add a 0 to fill the gap
+		ca[2] = 0;
+		
+		register[0] = MemoryEntry.parseMemoryEntry(String.valueOf(ca)).getValue();
 	}
 	
 	/**
-	 * Akku := Akku x 2
+	 * Arithmetical shift left
 	 */
 	public void sla(){
-		register[0]<<=1;
+		MemoryEntry m = new MemoryEntry(register[0]);
+		String b = m.getBinaryString();
+		carryFlag = Short.valueOf(b.substring(2, 2));
+		
+		//shift left
+		char[] ca = b.toCharArray();
+		for(int i = 14;i > 0;i--){
+			ca[i] = ca[i+1];
+		}
+		//add a 0 to fill the gap
+		ca[15] = 0;
+		
+		register[0] = MemoryEntry.parseMemoryEntry(String.valueOf(ca)).getValue();
 	}
+	
+	/**
+	 * Logical shift right
+	 */
+	public void srl(){
+		MemoryEntry m = new MemoryEntry(register[0]);
+		String b = m.getBinaryString();
+		carryFlag = Short.parseShort(b.substring(b.length()-1));
+		
+		char[] ca = b.toCharArray();
+		//shift right
+		for(int i = 1;i < ca.length;i++){
+			ca[i] = ca[i-1];
+		}
+		//add a 0 to fill the gap
+		ca[0] = 0;
+		
+		register[0] = MemoryEntry.parseMemoryEntry(String.valueOf(ca)).getValue();
+	}
+	
+	/**
+	 * Logical shift left
+	 */
+	public void sll(){
+		MemoryEntry m = new MemoryEntry(register[0]);
+		String b = m.getBinaryString();
+		carryFlag = Short.valueOf(b.substring(1, 1));
+		
+		//shift left
+		char[] ca = b.toCharArray();
+		for(int i = 14;i >= 0;i--){
+			ca[i] = ca[i+1];
+		}
+		//add a 0 to fill the gap
+		ca[15] = 0;
+		
+		register[0] = MemoryEntry.parseMemoryEntry(String.valueOf(ca)).getValue();
+	}
+	
+	/**
+	 * Binary AND
+	 * @param rnr
+	 */
+	public void and(short rnr){
+		MemoryEntry ma = new MemoryEntry(register[0]);
+		MemoryEntry mr = new MemoryEntry(register[rnr]);
+		
+		char[] caa = ma.getBinaryString().toCharArray();
+		char[] car = mr.getBinaryString().toCharArray();
+		
+		for(int i = 0; i < caa.length;i++){
+			if(caa[i] == '1' && car[i] == '1'){
+				caa[i] = '1';
+			}else{
+				caa[i] = '0';
+			}
+		}
+		register[0] = MemoryEntry.parseMemoryEntry(String.valueOf(caa)).getValue();
+	}
+	
+	/**
+	 * Binary OR
+	 * @param rnr
+	 */
+	public void or(short rnr){
+		MemoryEntry ma = new MemoryEntry(register[0]);
+		MemoryEntry mr = new MemoryEntry(register[rnr]);
+		
+		char[] caa = ma.getBinaryString().toCharArray();
+		char[] car = mr.getBinaryString().toCharArray();
+		
+		for(int i = 0; i < caa.length;i++){
+			if(caa[i] == '1' || car[i] == '1'){
+				caa[i] = '1';
+			}else{
+				caa[i] = '0';
+			}
+		}
+		register[0] = MemoryEntry.parseMemoryEntry(String.valueOf(caa)).getValue();
+	}
+	
+	/**
+	 * Binary NOT
+	 */
+	public void not(){
+		MemoryEntry m = new MemoryEntry(register[0]);
+		char[] ca = m.getBinaryString().toCharArray();
+		for(int i = 0;i < ca.length;i++){
+			ca[i] = (ca[i] == '1' ? '0' : '1');
+		}
+		register[0] = MemoryEntry.parseMemoryEntry(String.valueOf(ca)).getValue();
+	}
+	
+	/**
+	 * Conditional Jump. If Akku == 0 jump to the address in register rnr
+	 * @param rnr
+	 */
+	public void bz(short rnr){
+		if(register[0] == 0){
+			b(rnr);
+		}
+	}
+	
+	/**
+	 * Conditional Jump. If Akku != 0 jump to the address in register rnr
+	 * @param rnr
+	 */
+	public void bnz(short rnr){
+		if(register[0] != 0){
+			b(rnr);
+		}
+	}
+	
+	/**
+	 * Conditional Jump. If carryFlag is set, jump to the address in register rnr
+	 * @param rnr
+	 */
+	public void bc(short rnr){
+		if(carryFlag == 1){
+			b(rnr);
+		}
+	}
+	
+	/**
+	 * Unconditional Jump. Jump to the address in register rnr
+	 * @param rnr
+	 */
+	public void b(short rnr){
+		instructionCounter = register[rnr];
+	}
+	
+	/**
+	 * Conditional Jump. If Akku == 0 jump to the given address
+	 * @param adr
+	 */
+	public void bzd(short adr){
+		if(register[0] == 0){
+			bd(adr);
+		}
+	}
+	
+	/**
+	 * Conditional Jump. If Akku != 0 jump to the given address
+	 * @param rnr
+	 */
+	public void bnzd(short adr){
+		if(register[0] != 0){
+			bd(adr);
+		}
+	}
+	
+	/**
+	 * Conditional Jump. If carryFlag is set, jump to the given address
+	 * @param rnr
+	 */
+	public void bcd(short adr){
+		if(carryFlag == 1){
+			bd(adr);
+		}
+	}
+	
+	/**
+	 * Unconditional Jump. Jump to the given address
+	 * @param adr
+	 */
+	public void bd(short adr){
+		instructionCounter = adr;
+	}
+	
 }

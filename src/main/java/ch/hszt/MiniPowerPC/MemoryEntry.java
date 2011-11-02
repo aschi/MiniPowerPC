@@ -2,6 +2,7 @@ package ch.hszt.MiniPowerPC;
 
 public class MemoryEntry {
 	private short value;
+	private String binaryString;
 	
 	public MemoryEntry(short value){
 		this.value = value;
