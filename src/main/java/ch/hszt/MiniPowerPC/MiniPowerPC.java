@@ -1,5 +1,7 @@
 package ch.hszt.MiniPowerPC;
 
+import ch.hszt.MiniPowerPC.helper.Helper;
+
 public class MiniPowerPC {
 	short carryFlag = 0;
 	MemoryEntry[] memory = new MemoryEntry[1023];
@@ -18,6 +20,13 @@ public class MiniPowerPC {
 			if (memory[instructionCounter] != null) {
 				i = Instruction.parseInstruction(memory[instructionCounter]);
 				if (i != null) {
+					System.out.println("--------------------------------------");
+					for(int x=0;x<3;x++){
+						System.out.println("register["+x+"]:"+register[x]);
+					}
+					System.out.println("carryFlag: " + carryFlag);
+					System.out.println("Instruction: " + i.getInstruction().toString() +"; rnr: "+ i.getRnr() +"; memoryAddress: "+ i.getMemoryAddress() +"; number:" + i.getNumber());
+					System.out.println();
 					i.run(this);
 				}
 			}
@@ -110,7 +119,7 @@ public class MiniPowerPC {
 			ca[i] = ca[i - 1];
 		}
 		// add a 0 to fill the gap
-		ca[2] = 0;
+		ca[2] = '0';
 
 		register[0] = new MemoryEntry(ca).getNumericValue();
 	}
@@ -123,15 +132,18 @@ public class MiniPowerPC {
 		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[m
 				.getBinaryString().length - 1]));
 
-		char[] ca = m.getBinaryString();
+		char[] co = m.getBinaryString();
+		char[] cn = new char[16];
 		// shift left
-		for (int i = 14; i > 0; i--) {
-			ca[i] = ca[i + 1];
+		for(int i = 1;i < 15;i++){
+			cn[i] = co[i+1];
 		}
+		//Keep first bit
+		cn[0] = co[0];
 		// add a 0 to fill the gap
-		ca[15] = 0;
+		cn[15] = '0';
 
-		register[0] = new MemoryEntry(ca).getNumericValue();
+		register[0] = Helper.binaryCharArrayToInt(cn);
 	}
 
 	/**
@@ -148,7 +160,7 @@ public class MiniPowerPC {
 			ca[i] = ca[i - 1];
 		}
 		// add a 0 to fill the gap
-		ca[0] = 0;
+		ca[0] = '0';
 
 		register[0] = new MemoryEntry(ca).getNumericValue();
 	}
@@ -168,7 +180,7 @@ public class MiniPowerPC {
 			ca[i] = ca[i + 1];
 		}
 		// add a 0 to fill the gap
-		ca[15] = 0;
+		ca[15] = '0';
 
 		register[0] = new MemoryEntry(ca).getNumericValue();
 	}
