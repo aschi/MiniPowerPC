@@ -2,13 +2,15 @@ package ch.hszt.MiniPowerPC;
 
 import java.util.regex.Pattern;
 
+import ch.hszt.MiniPowerPC.helper.Helper;
+
 public class Instruction {
 	short memoryAddress;
 	short rnr;
-	short number;
+	int number;
 	InstructionSet instruction;
 	
-	private Instruction(short memoryAddress, short rnr, short number, InstructionSet instruction){
+	private Instruction(short memoryAddress, short rnr, int number, InstructionSet instruction){
 		this.memoryAddress = memoryAddress;
 		this.rnr = rnr;
 		this.number = number;
@@ -16,15 +18,21 @@ public class Instruction {
 	}
 	
 	public static Instruction parseInstruction(MemoryEntry input){
-		String b = input.getBinaryString(); 	
-		
+		String b = String.valueOf(input.getBinaryString()); 	
 		Pattern p;
 		
-		short memoryAddress = (short)Integer.parseInt(b.substring(7));
+		short memoryAddress = (short)Helper.binaryCharArrayToInt(b.substring(6).toCharArray());
 		short rnr = (short)Integer.parseInt(b.substring(5, 6), 2);
-		short number = MemoryEntry.parseMemoryEntry(b.substring(2)).getValue();
+		int number = Helper.binaryCharArrayToInt(b.substring(1).toCharArray());
 		InstructionSet instruction;
 		
+		/*
+		//Debugging info
+		System.out.println("b:" + b);
+		System.out.println("memoryAddress:" + memoryAddress);
+		System.out.println("rnr:" + rnr);
+		System.out.println("number:" + number);
+		*/
 		//CLR Rnr
 		p = Pattern.compile("^0000[0,1][0,1]101*");
 		if(p.matcher(b).find()){
@@ -44,7 +52,7 @@ public class Instruction {
 		}
 		
 		//ADDD
-		if(b.substring(1, 1).equals("1")){
+		if(b.substring(0, 1).equals("1")){
 			instruction = InstructionSet.ADDD;
 			memoryAddress = -1;
 			rnr = -1;
@@ -52,7 +60,7 @@ public class Instruction {
 		}
 		
 		//INC
-		if(b.substring(1, 8).equals("00000001")){
+		if(b.substring(0, 8).equals("00000001")){
 			instruction = InstructionSet.INC;
 			memoryAddress = -1;
 			rnr = -1;
@@ -61,7 +69,7 @@ public class Instruction {
 		}
 		
 		//DEC
-		if(b.substring(1, 8).equals("00000100")){
+		if(b.substring(0, 8).equals("00000100")){
 			instruction = InstructionSet.DEC;
 			memoryAddress = -1;
 			rnr = -1;
@@ -70,7 +78,7 @@ public class Instruction {
 		}
 		
 		//LWDD
-		if(b.substring(1, 3).equals("010")){
+		if(b.substring(0, 3).equals("010")){
 			instruction = InstructionSet.LWDD;
 			number = -1;
 			return new Instruction(memoryAddress, rnr, number, instruction);
@@ -78,14 +86,14 @@ public class Instruction {
 		}
 		
 		//SWDD
-		if(b.substring(1, 3).equals("011")){
+		if(b.substring(0, 3).equals("011")){
 			instruction = InstructionSet.SWDD;
 			number = -1;
 			return new Instruction(memoryAddress, rnr, number, instruction);
 		}
 		
 		//SRA
-		if(b.substring(1, 8).equals("00000101")){
+		if(b.substring(0, 8).equals("00000101")){
 			instruction = InstructionSet.SRA;
 			memoryAddress = -1;
 			rnr = -1;
@@ -94,7 +102,7 @@ public class Instruction {
 		}
 		
 		//SLA
-		if(b.substring(1, 8).equals("00001000")){
+		if(b.substring(0, 8).equals("00001000")){
 			instruction = InstructionSet.SLA;
 			memoryAddress = -1;
 			rnr = -1;
@@ -103,7 +111,7 @@ public class Instruction {
 		}
 
 		//SRL
-		if(b.substring(1, 8).equals("00001001")){
+		if(b.substring(0, 8).equals("00001001")){
 			instruction = InstructionSet.SRL;
 			memoryAddress = -1;
 			rnr = -1;
@@ -112,7 +120,7 @@ public class Instruction {
 		}
 		
 		//SLL
-		if(b.substring(1, 8).equals("00001100")){
+		if(b.substring(0, 8).equals("00001100")){
 			instruction = InstructionSet.SLL;
 			memoryAddress = -1;
 			rnr = -1;
@@ -139,7 +147,7 @@ public class Instruction {
 		}
 		
 		//NOT
-		if(b.substring(1, 8).equals("00000000")){
+		if(b.substring(0, 8).equals("00000000")){
 			instruction = InstructionSet.NOT;
 			rnr = -1;
 			memoryAddress = -1;
@@ -184,7 +192,7 @@ public class Instruction {
 		}
 		
 		//BZD
-		if(b.substring(1, 5).equals("00110")){
+		if(b.substring(0, 5).equals("00110")){
 			instruction = InstructionSet.BZD;
 			rnr = -1;
 			number = -1;
@@ -192,7 +200,7 @@ public class Instruction {
 		}
 		
 		//BNZD
-		if(b.substring(1, 5).equals("00101")){
+		if(b.substring(0, 5).equals("00101")){
 			instruction = InstructionSet.BNZD;
 			rnr = -1;
 			number = -1;
@@ -200,7 +208,7 @@ public class Instruction {
 		}
 		
 		//BCD
-		if(b.substring(1, 5).equals("00111")){
+		if(b.substring(0, 5).equals("00111")){
 			instruction = InstructionSet.BCD;
 			rnr = -1;
 			number = -1;
@@ -208,7 +216,7 @@ public class Instruction {
 		}
 		
 		//BD
-		if(b.substring(1, 5).equals("00100")){
+		if(b.substring(0, 5).equals("00100")){
 			instruction = InstructionSet.BD;
 			rnr = -1;
 			number = -1;
@@ -227,7 +235,7 @@ public class Instruction {
 	}
 
 
-	public short getNumber() {
+	public int getNumber() {
 		return number;
 	}
 
@@ -244,7 +252,7 @@ public class Instruction {
 			emu.add(rnr);
 			break;
 		case ADDD:
-			emu.add(number);
+			emu.addd(number);
 			break;
 		case INC:
 			emu.inc();
