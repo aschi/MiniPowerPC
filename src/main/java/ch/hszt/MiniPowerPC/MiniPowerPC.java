@@ -4,36 +4,61 @@ import ch.hszt.MiniPowerPC.helper.Helper;
 
 public class MiniPowerPC {
 	short carryFlag = 0;
-	MemoryEntry[] memory = new MemoryEntry[1023];
-	int[] register = new int[3]; // register[0] = akku, 1-3 register
-	int instructionCounter;
+	MemoryEntry[] memory;
+	int[] register = new int[4]; // register[0] = akku, 1-3 register
+	int instructionCounter = 100;
 
 	public MiniPowerPC(MemoryEntry[] memory) {
 		this.memory = memory;
 	}
+	
+	public void setCarryFlag(short carryFlag) {
+		this.carryFlag = carryFlag;
+	}
+	
+	public void setAkku(int i){
+		register[0] = i;
+	}
 
+	//Geter and seter for memory
+	public MemoryEntry[] getMemory(){
+		return memory;
+	}
+
+	public void setMemory(MemoryEntry[] memory){
+		this.memory = memory;
+	}
+	
+	public void setInstructionCounter(int instructionCounter){
+		this.instructionCounter = instructionCounter;
+	}
+	
 	public void run() {
-		instructionCounter = 100;
 		Instruction i;
 
 		while (instructionCounter < 500) {
 			if (memory[instructionCounter] != null) {
 				i = Instruction.parseInstruction(memory[instructionCounter]);
 				if (i != null) {
-					System.out.println("--------------------------------------");
-					for(int x=0;x<3;x++){
-						System.out.println("register["+x+"]:"+register[x]);
+					System.out
+							.println("--------------------------------------");
+					for (int x = 0; x <= 3; x++) {
+						System.out
+								.println("register[" + x + "]:" + register[x]);
 					}
 					System.out.println("carryFlag: " + carryFlag);
-					System.out.println("Instruction: " + i.getInstruction().toString() +"; rnr: "+ i.getRnr() +"; memoryAddress: "+ i.getMemoryAddress() +"; number:" + i.getNumber());
+					System.out.println("Instruction: "
+							+ i.getInstruction().toString() + "; rnr: "
+							+ i.getRnr() + "; memoryAddress: "
+							+ i.getMemoryAddress() + "; number:"
+							+ i.getNumber());
 					System.out.println();
+					
 					i.run(this);
 				}
 			}
 			instructionCounter++;
-		};
-		
-		System.out.println("Result: " +memory[504].getNumericValue());
+		}
 	}
 
 	/**
@@ -115,13 +140,12 @@ public class MiniPowerPC {
 		char[] ca = m.getBinaryString();
 
 		// shift left (dont touch first 2 bits)
-		for (int i = 3; i < ca.length; i++) {
+		for (int i = ca.length - 1; i > 1; i--) {
 			ca[i] = ca[i - 1];
 		}
-		// add a 0 to fill the gap
-		ca[2] = '0';
 
-		register[0] = new MemoryEntry(ca).getNumericValue();
+		
+		register[0] = Helper.binaryCharArrayToInt(ca, true);
 	}
 
 	/**
@@ -135,15 +159,15 @@ public class MiniPowerPC {
 		char[] co = m.getBinaryString();
 		char[] cn = new char[16];
 		// shift left
-		for(int i = 1;i < 15;i++){
-			cn[i] = co[i+1];
+		for (int i = 1; i < co.length - 1; i++) {
+			cn[i] = co[i + 1];
 		}
-		//Keep first bit
+		// Keep first bit
 		cn[0] = co[0];
 		// add a 0 to fill the gap
 		cn[15] = '0';
 
-		register[0] = Helper.binaryCharArrayToInt(cn);
+		register[0] = Helper.binaryCharArrayToInt(cn, true);
 	}
 
 	/**
@@ -155,14 +179,14 @@ public class MiniPowerPC {
 				.getBinaryString().length - 1]));
 
 		char[] ca = m.getBinaryString();
+		
 		// shift right
-		for (int i = 1; i < ca.length; i++) {
+		for (int i = ca.length - 1; i > 0; i--) {
 			ca[i] = ca[i - 1];
 		}
 		// add a 0 to fill the gap
 		ca[0] = '0';
-
-		register[0] = new MemoryEntry(ca).getNumericValue();
+		register[0] = Helper.binaryCharArrayToInt(ca, true);
 	}
 
 	/**
@@ -170,19 +194,16 @@ public class MiniPowerPC {
 	 */
 	public void sll() {
 		MemoryEntry m = MemoryEntry.parseMemoryEntry(register[0]);
-		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[m
-				.getBinaryString().length - 1]));
+		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[0]));
 
 		char[] ca = m.getBinaryString();
-
 		// shift left
-		for (int i = 14; i >= 0; i--) {
+		for (int i = 0; i < ca.length-1; i++) {
 			ca[i] = ca[i + 1];
 		}
 		// add a 0 to fill the gap
-		ca[15] = '0';
-
-		register[0] = new MemoryEntry(ca).getNumericValue();
+		ca[ca.length-1] = '0';
+		register[0] = Helper.binaryCharArrayToInt(ca, true);
 	}
 
 	/**
@@ -204,7 +225,7 @@ public class MiniPowerPC {
 				caa[i] = '0';
 			}
 		}
-		register[0] = new MemoryEntry(caa).getNumericValue();
+		register[0] = Helper.binaryCharArrayToInt(caa, true);
 	}
 
 	/**
@@ -226,7 +247,7 @@ public class MiniPowerPC {
 				caa[i] = '0';
 			}
 		}
-		register[0] = new MemoryEntry(caa).getNumericValue();
+		register[0] = Helper.binaryCharArrayToInt(caa, true);
 	}
 
 	/**
@@ -238,7 +259,7 @@ public class MiniPowerPC {
 		for (int i = 0; i < ca.length; i++) {
 			ca[i] = (ca[i] == '1' ? '0' : '1');
 		}
-		register[0] = new MemoryEntry(ca).getNumericValue();
+		register[0] = Helper.binaryCharArrayToInt(ca, true);
 	}
 
 	/**
@@ -281,7 +302,7 @@ public class MiniPowerPC {
 	 * @param rnr
 	 */
 	public void b(short rnr) {
-		instructionCounter = register[rnr];
+		instructionCounter = (register[rnr]-1); //-1 because it will be incremented immediately
 	}
 
 	/**
@@ -323,7 +344,7 @@ public class MiniPowerPC {
 	 * @param adr
 	 */
 	public void bd(short adr) {
-		instructionCounter = adr;
+		instructionCounter = (adr-1); //-1 because it will be incremented immediately
 	}
 
 }

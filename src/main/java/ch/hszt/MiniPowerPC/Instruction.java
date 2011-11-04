@@ -21,9 +21,9 @@ public class Instruction {
 		String b = String.valueOf(input.getBinaryString()); 	
 		Pattern p;
 		
-		short memoryAddress = (short)Helper.binaryCharArrayToInt(b.substring(6).toCharArray());
-		short rnr = (short)Integer.parseInt(b.substring(5, 6), 2);
-		int number = Helper.binaryCharArrayToInt(b.substring(1).toCharArray());
+		short memoryAddress = (short)Helper.binaryCharArrayToInt(b.substring(6).toCharArray(), false);
+		short rnr = (short)Integer.parseInt(b.substring(4, 6), 2);
+		int number = Helper.binaryCharArrayToInt(b.substring(1).toCharArray(), true);
 		InstructionSet instruction;
 		
 		/*
@@ -34,7 +34,7 @@ public class Instruction {
 		System.out.println("number:" + number);
 		*/
 		//CLR Rnr
-		p = Pattern.compile("^0000[0,1][0,1]101*");
+		p = Pattern.compile("^0000[01][01]101");
 		if(p.matcher(b).find()){
 			instruction = InstructionSet.CLR;
 			memoryAddress = -1;
@@ -43,7 +43,7 @@ public class Instruction {
 		}
 		
 		//ADD Rnr
-		p = Pattern.compile("^0000[0,1][0,1]111*");
+		p = Pattern.compile("^0000[01][01]111");
 		if(p.matcher(b).find()){
 			instruction = InstructionSet.ADD;
 			memoryAddress = -1;
@@ -129,7 +129,7 @@ public class Instruction {
 		}
 		
 		//AND
-		p = Pattern.compile("^0000[0,1][0,1]100*");
+		p = Pattern.compile("^0000[0,1][0,1]100");
 		if(p.matcher(b).find()){
 			instruction = InstructionSet.AND;
 			memoryAddress = -1;
@@ -138,7 +138,7 @@ public class Instruction {
 		}
 		
 		//OR
-		p = Pattern.compile("^0000[0,1][0,1]110*");
+		p = Pattern.compile("^0000[01][01]110");
 		if(p.matcher(b).find()){
 			instruction = InstructionSet.OR;
 			memoryAddress = -1;
@@ -156,7 +156,7 @@ public class Instruction {
 		}
 		
 		//BZ
-		p = Pattern.compile("^0001[0,1][0,1]10*");
+		p = Pattern.compile("^0001[01][01]10");
 		if(p.matcher(b).find()){
 			instruction = InstructionSet.BZ;
 			memoryAddress = -1;
@@ -165,7 +165,7 @@ public class Instruction {
 		}
 		
 		//BNZ
-		p = Pattern.compile("^0001[0,1][0,1]01*");
+		p = Pattern.compile("^0001[01][01]01");
 		if(p.matcher(b).find()){
 			instruction = InstructionSet.BNZ;
 			memoryAddress = -1;
@@ -174,7 +174,7 @@ public class Instruction {
 		}
 		
 		//BC
-		p = Pattern.compile("^0001[0,1][0,1]11*");
+		p = Pattern.compile("^0001[01][01]11");
 		if(p.matcher(b).find()){
 			instruction = InstructionSet.BC;
 			memoryAddress = -1;
@@ -183,7 +183,7 @@ public class Instruction {
 		}
 		
 		//B
-		p = Pattern.compile("^0001[0,1][0,1]00*");
+		p = Pattern.compile("^0001[01][01]00");
 		if(p.matcher(b).find()){
 			instruction = InstructionSet.B;
 			memoryAddress = -1;

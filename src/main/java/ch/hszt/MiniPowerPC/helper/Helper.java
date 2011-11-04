@@ -55,33 +55,39 @@ public class Helper {
 	 * @param input charArray representing an binary string
 	 * @return integer value of the input
 	 */
-	public static int binaryCharArrayToInt(char[] input) {
+	public static int binaryCharArrayToInt(char[] input, boolean signed) {
 		// check if it's positive
-		if (input[0] == '0') {
+		//clone chararray
+		char[] ca = input.clone();
+		
+		if (ca[0] == '0' || !signed) {
 			// > 0 => Parse it as usual
-			return binToDec(input);
+			return binToDec(ca);
 		} else {
 			// < 0 => convert
 			// --1
-			int i = input.length - 1;
-			while (input[i] == '0' && i > 0) {
-				input[i] = '1';
+			int i = ca.length - 1;
+			while (ca[i] == '0' && i > 0) {
+				ca[i] = '1';
 				i--;
 			}
-			input[i] = '0';
+			ca[i] = '0';
 
 			// invert
-			for (i = 0; i < input.length; i++) {
-				input[i] = (input[i] == '1' ? '0' : '1');
+			for (i = 0; i < ca.length; i++) {
+				ca[i] = (ca[i] == '1' ? '0' : '1');
 			}
-			return -1*binToDec(input);
+			return -1*binToDec(ca);
 		}
 	}
 	
 	public static int binToDec(char[] input){
+		//clone chararray
+		char[] ca = input.clone();
+		
 		int sum = 0;
-		for(int n=0; n < input.length;n++){
-			sum+=(input[n]=='1' ? Math.pow(2, input.length-n-1) : 0);
+		for(int n=0; n < ca.length;n++){
+			sum+=(ca[n]=='1' ? Math.pow(2, ca.length-n-1) : 0);
 		}
 		return sum;
 	}

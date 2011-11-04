@@ -36,6 +36,6 @@ public class MemoryEntry {
 	
 	
 	public int getNumericValue(){
-		return Helper.binaryCharArrayToInt(binaryString);
+		return Helper.binaryCharArrayToInt(binaryString, true);
 	}
 }

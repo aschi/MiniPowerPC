@@ -47,18 +47,18 @@ public class HelperTest extends TestCase {
 	public void testBinaryCharArrayToIntPositiveNo(){
 		int i = 1337;
 		String ref = "0000010100111001";
-		assertTrue(Helper.binaryCharArrayToInt(ref.toCharArray()) == i);
+		assertTrue(Helper.binaryCharArrayToInt(ref.toCharArray(), true) == i);
 	}
 	@Test
 	public void testBinaryCharArrayToIntNegativeNo1(){
 		int i = -1337;
 		String ref = "1111101011000111";
-		assertTrue(Helper.binaryCharArrayToInt(ref.toCharArray()) == i);
+		assertTrue(Helper.binaryCharArrayToInt(ref.toCharArray(), true) == i);
 	}
 	@Test
 	public void testBinaryCharArrayToIntNegativeNo2(){
 		int i = -100;
 		String ref = "1111111110011100";
-		assertTrue(Helper.binaryCharArrayToInt(ref.toCharArray()) == i);
+		assertTrue(Helper.binaryCharArrayToInt(ref.toCharArray(), true) == i);
 	}
 }
