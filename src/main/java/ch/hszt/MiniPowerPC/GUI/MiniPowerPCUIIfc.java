@@ -4,6 +4,8 @@
  */
 package ch.hszt.MiniPowerPC.GUI;
 
+import ch.hszt.MiniPowerPC.MemoryEntry;
+
 /**
  * The GUI implements this Interface, which allows the Controller to Set and
  * Get Text and status of a specific GUI component
@@ -37,6 +39,12 @@ public interface MiniPowerPCUIIfc {
      * Sets the String in the Mnemonic-Column and the Value-Column in the Befehlsregister
      */
     public void setBefReg(String inMnemonic, String inValue);
+    
+     /**
+     * Sets the String in the Mnemonic-Column and the Value-Column in the Befehlsregister
+     */
+    public void setMemoryEntries(MemoryEntry[] inMemory);
+    
     
     /**
      * Sets the String in the Textfield of the "Anzahl durchgeführter Befehle"

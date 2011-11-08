@@ -1,7 +1,10 @@
 package ch.hszt.MiniPowerPC;
 
-public class Test {
+import ch.hszt.MiniPowerPC.GUI.MiniPowerPCGUI;
+import ch.hszt.MiniPowerPC.GUI.MiniPowerPCUIIfc;
 
+public class Test implements ControllerIfc {
+           private MiniPowerPCUIIfc gui;
 	/**
 	 * Baschdle =D
 	 * @param args
@@ -94,8 +97,22 @@ public class Test {
 		m[500] = MemoryEntry.parseMemoryEntry(-1);
 		*/
 		
+                new Test().openGUI();
 		MiniPowerPC emu = new MiniPowerPC(m);
 		emu.run();
 	}
+        
+        private void openGUI(){
+                gui = new MiniPowerPCGUI(this);
+            
+        }
+
+    public void runSimulation() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void nextStep() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 }
