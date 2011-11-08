@@ -1547,6 +1547,7 @@ private void _jBtnNextStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
     public void setBefReg(String inMnemonic, String inValue) {
         //TODO Implementation
+        
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
