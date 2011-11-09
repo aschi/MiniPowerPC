@@ -3,21 +3,53 @@ package ch.hszt.MiniPowerPC;
 import ch.hszt.MiniPowerPC.helper.Helper;
 
 public class MiniPowerPC {
-	short carryFlag = 0;
-	MemoryEntry[] memory;
-	int[] register = new int[4]; // register[0] = akku, 1-3 register
-	int instructionCounter = 100;
+	private short carryFlag = 0;
+	private MemoryEntry[] memory;
+	private int[] register = new int[4]; // register[0] = akku, 1-3 register
+	private int instructionCounter = 100;
+	private long stepCounter;
+	private Instruction instructionReg;
 
 	public MiniPowerPC(MemoryEntry[] memory) {
 		this.memory = memory;
+		getNextInstruction();
 	}
 
+	public MiniPowerPC(MemoryEntry[] memory, int instructionCounter){
+		this(memory);
+		setInstructionCounter(instructionCounter);
+	}
+	
 	public void setCarryFlag(short carryFlag) {
 		this.carryFlag = carryFlag;
 	}
 
 	public void setAkku(int i) {
 		register[0] = i;
+	}
+
+	public Instruction getInstructionReg(){
+		return instructionReg;
+	}
+	
+	public int getAkku(){
+		return register[0];
+	}
+	
+	public int[] getRegister(){
+		return register;
+	}
+
+	public int getInstructionCounter(){
+		return instructionCounter;
+	}
+	
+	public short getCarryFlag() {
+		return carryFlag;
+	}
+
+	public long getStepCounter() {
+		return stepCounter;
 	}
 
 	// Geter and seter for memory
@@ -31,65 +63,45 @@ public class MiniPowerPC {
 
 	public void setInstructionCounter(int instructionCounter) {
 		this.instructionCounter = instructionCounter;
+		getNextInstruction();
 	}
 
+	/**
+	 * Run whole simulation
+	 */
 	public void run() {
-		Instruction i;
-
-		while (instructionCounter < 200) {
-			if (memory[instructionCounter] != null) {
-				i = Instruction.parseInstruction(memory[instructionCounter]);
-				if (i != null) {
-					/*
-					 * System.out
-					 * .println("--------------------------------------"); for
-					 * (int x = 0; x <= 3; x++) { System.out
-					 * .println("register[" + x + "]:" + register[x]); }
-					 * System.out.println("carryFlag: " + carryFlag);
-					 * System.out.println("Instruction: " +
-					 * i.getInstruction().toString() + "; rnr: " + i.getRnr() +
-					 * "; memoryAddress: " + i.getMemoryAddress() + "; number:"
-					 * + i.getNumber()); System.out.println();
-					 */
-
-					/*
-					 * 
-					 * Akku:0 Register 1:0 Register 2:0 Register 3:0 Speicher
-					 * #200 Speicher #202 Speicher #204 Speicher #206
-					 */
-
-					i.run(this);
-					System.out
-					.println("--------------------------------------");
-					System.out.println("Instruction: "
-							+ i.getInstruction().toString() + "; rnr: "
-							+ i.getRnr() + "; memoryAddress: "
-							+ i.getMemoryAddress() + "; number:"
-							+ i.getNumber());
-					
-					System.out
-							.println("--------------------------------------");
-					String out = "";
-					for (int x = 0; x <= 3; x++) {
-						if(x!=0){
-							out = out + "Register " + x + ":" + register[x] + ";";
-						}else{
-							System.out.println("Akku: " + register[x]);
-						}
-					}
-					System.out.println(out.substring(0, out.length()-1));
-					out = "";
-					for(int x = 200;x<=206; x=x+2){
-						if(memory[x] != null){
-							out = out + "Speicher #"+x+": "+memory[x].getNumericValue() + ";";
-						}
-					}
-					System.out.println(out.substring(0, out.length()-1));
-				}
-			}
+		while(instructionReg != null){
+			instructionReg.run(this);
 			instructionCounter++;
+			stepCounter++;
+			getNextInstruction();
 		}
 	}
+	
+	/**
+	 * Get the next instruction
+	 */
+	public void getNextInstruction(){
+		while (memory[instructionCounter] == null && instructionCounter < 500) {
+			instructionCounter++;
+		}
+		if(memory[instructionCounter] != null){
+			instructionReg = Instruction.parseInstruction(memory[instructionCounter]); 
+		}
+	}
+	
+	/**
+	 * Run a single instruction
+	 */
+	public void nextStep() {
+		if(instructionReg != null){
+			instructionReg.run(this);
+			instructionCounter++;
+			stepCounter++;
+			getNextInstruction();
+		}
+	}	
+	
 
 	/**
 	 * Register rnr := 0

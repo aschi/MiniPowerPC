@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MiniPowerPCGUI extends javax.swing.JFrame implements MiniPowerPCUIIfc{
     private DefaultTableModel _MemTblModel;
+    private DefaultTableModel _BefRegTblModel;
 	private final ControllerIfc _controller;
 
 	/** Creates new form MiniPowerPCGUI */
@@ -30,6 +31,7 @@ public class MiniPowerPCGUI extends javax.swing.JFrame implements MiniPowerPCUII
 		_controller = inController;
 		init();
                 _MemTblModel = new DefaultTableModel();
+                _BefRegTblModel = new DefaultTableModel();
 		initComponents();
 		setVisible(true);
 	}
@@ -532,9 +534,18 @@ private void _jBtnNextStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
     public void setBefReg(String inMnemonic, String inValue) {
         //TODO Implementation
+    	_jTblBefReg.setModel(_BefRegTblModel);
+            
+        // remove existing rows
+    	while (_BefRegTblModel.getRowCount() > 0) {
+    		_BefRegTblModel.removeRow(0);
+        }
+    	
+        String[] row = new String[2];
+        row[0] = inMnemonic;
+        row[1] = inValue;   	
         
-        
-        throw new UnsupportedOperationException("Not supported yet.");
+        _BefRegTblModel.addRow(row);
     }
 
     public void setCarryBit(String inMemoryEntry) {
@@ -567,4 +578,6 @@ private void _jBtnNextStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             _MemTblModel.addRow(row);
         }
    }
+    
+   
 }

@@ -5,16 +5,23 @@ import java.util.regex.Pattern;
 import ch.hszt.MiniPowerPC.helper.Helper;
 
 public class Instruction {
+	char[] binaryString;
 	short memoryAddress;
 	short rnr;
 	int number;
 	InstructionSet instruction;
 	
-	private Instruction(short memoryAddress, short rnr, int number, InstructionSet instruction){
+	
+	private Instruction(short memoryAddress, short rnr, int number, InstructionSet instruction, char[] binaryString){
 		this.memoryAddress = memoryAddress;
 		this.rnr = rnr;
 		this.number = number;
 		this.instruction = instruction;
+		this.binaryString = binaryString;
+	}
+	
+	public String getBinaryString(){
+		return String.valueOf(binaryString);
 	}
 	
 	public static Instruction parseInstruction(MemoryEntry input){
@@ -39,7 +46,7 @@ public class Instruction {
 			instruction = InstructionSet.CLR;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);			
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
 		}
 		
 		//ADD Rnr
@@ -48,7 +55,7 @@ public class Instruction {
 			instruction = InstructionSet.ADD;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);	
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());	
 		}
 		
 		//ADDD
@@ -56,7 +63,7 @@ public class Instruction {
 			instruction = InstructionSet.ADDD;
 			memoryAddress = -1;
 			rnr = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);	
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());	
 		}
 		
 		//INC
@@ -65,7 +72,7 @@ public class Instruction {
 			memoryAddress = -1;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);	
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());	
 		}
 		
 		//DEC
@@ -74,14 +81,14 @@ public class Instruction {
 			memoryAddress = -1;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
 		}
 		
 		//LWDD
 		if(b.substring(0, 3).equals("010")){
 			instruction = InstructionSet.LWDD;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
 			
 		}
 		
@@ -89,7 +96,7 @@ public class Instruction {
 		if(b.substring(0, 3).equals("011")){
 			instruction = InstructionSet.SWDD;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
 		}
 		
 		//SRA
@@ -98,7 +105,7 @@ public class Instruction {
 			memoryAddress = -1;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
 		}
 		
 		//SLA
@@ -107,7 +114,7 @@ public class Instruction {
 			memoryAddress = -1;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
 		}
 
 		//SRL
@@ -116,7 +123,7 @@ public class Instruction {
 			memoryAddress = -1;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
 		}
 		
 		//SLL
@@ -125,7 +132,7 @@ public class Instruction {
 			memoryAddress = -1;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
 		}
 		
 		//AND
@@ -134,7 +141,7 @@ public class Instruction {
 			instruction = InstructionSet.AND;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);			
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
 		}
 		
 		//OR
@@ -143,7 +150,7 @@ public class Instruction {
 			instruction = InstructionSet.OR;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);			
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());		
 		}
 		
 		//NOT
@@ -152,7 +159,7 @@ public class Instruction {
 			rnr = -1;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);			
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
 		}
 		
 		//BZ
@@ -161,7 +168,7 @@ public class Instruction {
 			instruction = InstructionSet.BZ;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);			
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
 		}
 		
 		//BNZ
@@ -170,7 +177,7 @@ public class Instruction {
 			instruction = InstructionSet.BNZ;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);			
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
 		}
 		
 		//BC
@@ -179,7 +186,7 @@ public class Instruction {
 			instruction = InstructionSet.BC;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);			
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
 		}
 		
 		//B
@@ -188,7 +195,7 @@ public class Instruction {
 			instruction = InstructionSet.B;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);			
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
 		}
 		
 		//BZD
@@ -196,7 +203,7 @@ public class Instruction {
 			instruction = InstructionSet.BZD;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);			
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
 		}
 		
 		//BNZD
@@ -204,7 +211,7 @@ public class Instruction {
 			instruction = InstructionSet.BNZD;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);			
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
 		}
 		
 		//BCD
@@ -212,7 +219,7 @@ public class Instruction {
 			instruction = InstructionSet.BCD;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);			
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
 		}
 		
 		//BD
@@ -220,7 +227,7 @@ public class Instruction {
 			instruction = InstructionSet.BD;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction);			
+			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
 		}
 		
 		return null;
@@ -244,6 +251,8 @@ public class Instruction {
 	}
 	
 	public void run(MiniPowerPC emu){
+		System.out.println(this.instruction + ";rnr:"+this.rnr + ";memoryaddr:" + this.memoryAddress + ";no:" + this.number);
+		
 		switch(instruction){
 		case CLR:
 			emu.clr(rnr);
