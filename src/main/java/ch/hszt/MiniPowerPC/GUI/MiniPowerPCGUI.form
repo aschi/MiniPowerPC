@@ -44,7 +44,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="_jSeparator" alignment="0" pref="649" max="32767" attributes="0"/>
+                  <Component id="_jSeparator" alignment="0" pref="679" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -58,11 +58,11 @@
                               <Component id="_jPanelBefZ1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="_jPanelBefZ" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="_jPanelBefReg" min="-2" max="-2" attributes="0"/>
                           <Component id="_jPanelCountBef" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="_jPanelExposition" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="_jPanelBefReg" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="_jPanelMemory" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -95,7 +95,7 @@
                       <Component id="_jPanelBefZ" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="_jPanelBefReg" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <EmptySpace pref="24" max="32767" attributes="0"/>
                       <Component id="_jPanelCountBef" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="_jPanelExposition" min="-2" max="-2" attributes="0"/>
@@ -106,7 +106,6 @@
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
               <Component id="_jSeparator" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -286,7 +285,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="_jScrollPaneMem" pref="265" max="32767" attributes="0"/>
+                  <Component id="_jScrollPaneMem" pref="352" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -305,12 +304,13 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTableMem">
+            <Component class="javax.swing.JTable" name="_jTblMem">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="2" rowCount="1024">
+                  <Table columnCount="3" rowCount="0">
                     <Column editable="false" title="#Addr" type="java.lang.String"/>
-                    <Column editable="false" title="Wert" type="java.lang.String"/>
+                    <Column editable="false" title="Bin Value" type="java.lang.String"/>
+                    <Column editable="false" title="Dec Value" type="java.lang.String"/>
                   </Table>
                 </Property>
               </Properties>
@@ -370,7 +370,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jScrollPane1" min="-2" pref="39" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="50" max="-2" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
