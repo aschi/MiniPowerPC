@@ -11,50 +11,80 @@ public class MiniPowerPC {
 	public MiniPowerPC(MemoryEntry[] memory) {
 		this.memory = memory;
 	}
-	
+
 	public void setCarryFlag(short carryFlag) {
 		this.carryFlag = carryFlag;
 	}
-	
-	public void setAkku(int i){
+
+	public void setAkku(int i) {
 		register[0] = i;
 	}
 
-	//Geter and seter for memory
-	public MemoryEntry[] getMemory(){
+	// Geter and seter for memory
+	public MemoryEntry[] getMemory() {
 		return memory;
 	}
 
-	public void setMemory(MemoryEntry[] memory){
+	public void setMemory(MemoryEntry[] memory) {
 		this.memory = memory;
 	}
-	
-	public void setInstructionCounter(int instructionCounter){
+
+	public void setInstructionCounter(int instructionCounter) {
 		this.instructionCounter = instructionCounter;
 	}
-	
+
 	public void run() {
 		Instruction i;
 
-		while (instructionCounter < 500) {
+		while (instructionCounter < 200) {
 			if (memory[instructionCounter] != null) {
 				i = Instruction.parseInstruction(memory[instructionCounter]);
 				if (i != null) {
+					/*
+					 * System.out
+					 * .println("--------------------------------------"); for
+					 * (int x = 0; x <= 3; x++) { System.out
+					 * .println("register[" + x + "]:" + register[x]); }
+					 * System.out.println("carryFlag: " + carryFlag);
+					 * System.out.println("Instruction: " +
+					 * i.getInstruction().toString() + "; rnr: " + i.getRnr() +
+					 * "; memoryAddress: " + i.getMemoryAddress() + "; number:"
+					 * + i.getNumber()); System.out.println();
+					 */
+
+					/*
+					 * 
+					 * Akku:0 Register 1:0 Register 2:0 Register 3:0 Speicher
+					 * #200 Speicher #202 Speicher #204 Speicher #206
+					 */
+
+					i.run(this);
 					System.out
-							.println("--------------------------------------");
-					for (int x = 0; x <= 3; x++) {
-						System.out
-								.println("register[" + x + "]:" + register[x]);
-					}
-					System.out.println("carryFlag: " + carryFlag);
+					.println("--------------------------------------");
 					System.out.println("Instruction: "
 							+ i.getInstruction().toString() + "; rnr: "
 							+ i.getRnr() + "; memoryAddress: "
 							+ i.getMemoryAddress() + "; number:"
 							+ i.getNumber());
-					System.out.println();
 					
-					i.run(this);
+					System.out
+							.println("--------------------------------------");
+					String out = "";
+					for (int x = 0; x <= 3; x++) {
+						if(x!=0){
+							out = out + "Register " + x + ":" + register[x] + ";";
+						}else{
+							System.out.println("Akku: " + register[x]);
+						}
+					}
+					System.out.println(out.substring(0, out.length()-1));
+					out = "";
+					for(int x = 200;x<=206; x=x+2){
+						if(memory[x] != null){
+							out = out + "Speicher #"+x+": "+memory[x].getNumericValue() + ";";
+						}
+					}
+					System.out.println(out.substring(0, out.length()-1));
 				}
 			}
 			instructionCounter++;
@@ -144,7 +174,6 @@ public class MiniPowerPC {
 			ca[i] = ca[i - 1];
 		}
 
-		
 		register[0] = Helper.binaryCharArrayToInt(ca, true);
 	}
 
@@ -179,7 +208,7 @@ public class MiniPowerPC {
 				.getBinaryString().length - 1]));
 
 		char[] ca = m.getBinaryString();
-		
+
 		// shift right
 		for (int i = ca.length - 1; i > 0; i--) {
 			ca[i] = ca[i - 1];
@@ -198,11 +227,11 @@ public class MiniPowerPC {
 
 		char[] ca = m.getBinaryString();
 		// shift left
-		for (int i = 0; i < ca.length-1; i++) {
+		for (int i = 0; i < ca.length - 1; i++) {
 			ca[i] = ca[i + 1];
 		}
 		// add a 0 to fill the gap
-		ca[ca.length-1] = '0';
+		ca[ca.length - 1] = '0';
 		register[0] = Helper.binaryCharArrayToInt(ca, true);
 	}
 
@@ -302,7 +331,8 @@ public class MiniPowerPC {
 	 * @param rnr
 	 */
 	public void b(short rnr) {
-		instructionCounter = (register[rnr]-1); //-1 because it will be incremented immediately
+		instructionCounter = (register[rnr] - 1); // -1 because it will be
+													// incremented immediately
 	}
 
 	/**
@@ -344,7 +374,8 @@ public class MiniPowerPC {
 	 * @param adr
 	 */
 	public void bd(short adr) {
-		instructionCounter = (adr-1); //-1 because it will be incremented immediately
+		instructionCounter = (adr - 1); // -1 because it will be incremented
+										// immediately
 	}
 
 }
