@@ -11,6 +11,32 @@ public class Instruction {
 	int number;
 	InstructionSet instruction;
 	
+	/**
+	 * Returns the "Mnemonics" of the instruction
+	 */
+	public String toString(){
+		StringBuffer sb = new StringBuffer();
+		boolean firstNo = true;
+		
+		sb.append(instruction.toString());
+		if(rnr != -1){
+			sb.append((firstNo ? " " : ", "));
+			sb.append("R"+rnr);
+			firstNo = false;
+		}
+		if(instruction == InstructionSet.ADDD){
+			sb.append((firstNo ? " " : ", "));
+			sb.append("#"+number);
+			firstNo = false;
+		}else{
+			if(memoryAddress != -1){
+				sb.append((firstNo ? " " : ", "));
+				sb.append("#"+memoryAddress);
+				firstNo = false;
+			}
+		}
+		return sb.toString();
+	}
 	
 	private Instruction(short memoryAddress, short rnr, int number, InstructionSet instruction, char[] binaryString){
 		this.memoryAddress = memoryAddress;

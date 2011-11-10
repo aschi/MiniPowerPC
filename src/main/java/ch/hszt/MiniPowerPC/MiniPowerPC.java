@@ -82,11 +82,14 @@ public class MiniPowerPC {
 	 * Get the next instruction
 	 */
 	public void getNextInstruction(){
-		while (memory[instructionCounter] == null && instructionCounter < 500) {
+		while (memory[instructionCounter] == null && instructionCounter < 499) {
 			instructionCounter++;
 		}
 		if(memory[instructionCounter] != null){
 			instructionReg = Instruction.parseInstruction(memory[instructionCounter]); 
+		}else{
+			//finished
+			instructionReg = null;
 		}
 	}
 	

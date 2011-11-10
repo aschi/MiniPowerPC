@@ -46,7 +46,7 @@ public class Controller implements ControllerIfc {
 		m[502] = MemoryEntry.parseMemoryEntry(i2);
 		
 		Controller c = new Controller(m, 120);
-		System.out.println(c.getEmu().getInstructionCounter());
+		/*
 		for (int i = 100; i < 1024; i++) {
 			if (c.getEmu().getMemory()[i] != null) {
 				System.out.println(i
@@ -55,12 +55,14 @@ public class Controller implements ControllerIfc {
 								.getBinaryString()));
 			}
 		}
+		*/
+		
 	}
 
 	public void updateGUI() {
 		gui.setAkku(String.valueOf(emu.getAkku()));
 		if (emu.getInstructionReg() != null) {
-			gui.setBefReg(emu.getInstructionReg().getInstruction().toString(),
+			gui.setBefReg(emu.getInstructionReg().toString(),
 					emu.getInstructionReg().getBinaryString());
 		}
 		gui.setBefZ(String.valueOf(emu.getInstructionCounter()));
