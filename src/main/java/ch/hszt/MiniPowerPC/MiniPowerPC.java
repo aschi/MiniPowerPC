@@ -393,4 +393,12 @@ public class MiniPowerPC {
 										// immediately
 	}
 
+	/**
+	 * Unconditional Jump to the end of our instruction memory
+	 *	
+	 */
+	public void end() {
+		instructionCounter = 498;
+	}
+	
 }

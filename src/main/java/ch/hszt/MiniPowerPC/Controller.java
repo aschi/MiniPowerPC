@@ -41,6 +41,7 @@ public class Controller implements ControllerIfc {
 
 		// jump to 100
 		m[120] = new MemoryEntry("0010000001100100".toCharArray()); // BD 100
+		m[122] = new MemoryEntry("0000000000000000".toCharArray()); // END
 
 		m[500] = MemoryEntry.parseMemoryEntry(i1);
 		m[502] = MemoryEntry.parseMemoryEntry(i2);

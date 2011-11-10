@@ -10,255 +10,289 @@ public class Instruction {
 	short rnr;
 	int number;
 	InstructionSet instruction;
-	
+
 	/**
 	 * Returns the "Mnemonics" of the instruction
 	 */
-	public String toString(){
+	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		boolean firstNo = true;
-		
+
 		sb.append(instruction.toString());
-		if(rnr != -1){
+		if (rnr != -1) {
 			sb.append((firstNo ? " " : ", "));
-			sb.append("R"+rnr);
+			sb.append("R" + rnr);
 			firstNo = false;
 		}
-		if(instruction == InstructionSet.ADDD){
+		if (instruction == InstructionSet.ADDD) {
 			sb.append((firstNo ? " " : ", "));
-			sb.append("#"+number);
+			sb.append("#" + number);
 			firstNo = false;
-		}else{
-			if(memoryAddress != -1){
+		} else {
+			if (memoryAddress != -1) {
 				sb.append((firstNo ? " " : ", "));
-				sb.append("#"+memoryAddress);
+				sb.append("#" + memoryAddress);
 				firstNo = false;
 			}
 		}
 		return sb.toString();
 	}
-	
-	private Instruction(short memoryAddress, short rnr, int number, InstructionSet instruction, char[] binaryString){
+
+	private Instruction(short memoryAddress, short rnr, int number,
+			InstructionSet instruction, char[] binaryString) {
 		this.memoryAddress = memoryAddress;
 		this.rnr = rnr;
 		this.number = number;
 		this.instruction = instruction;
 		this.binaryString = binaryString;
 	}
-	
-	public String getBinaryString(){
+
+	public String getBinaryString() {
 		return String.valueOf(binaryString);
 	}
-	
-	public static Instruction parseInstruction(MemoryEntry input){
-		String b = String.valueOf(input.getBinaryString()); 	
+
+	public static Instruction parseInstruction(MemoryEntry input) {
+		String b = String.valueOf(input.getBinaryString());
 		Pattern p;
-		
-		short memoryAddress = (short)Helper.binaryCharArrayToInt(b.substring(6).toCharArray(), false);
-		short rnr = (short)Integer.parseInt(b.substring(4, 6), 2);
-		int number = Helper.binaryCharArrayToInt(b.substring(1).toCharArray(), true);
+
+		short memoryAddress = (short) Helper.binaryCharArrayToInt(b
+				.substring(6).toCharArray(), false);
+		short rnr = (short) Integer.parseInt(b.substring(4, 6), 2);
+		int number = Helper.binaryCharArrayToInt(b.substring(1).toCharArray(),
+				true);
 		InstructionSet instruction;
-		
+
 		/*
-		//Debugging info
-		System.out.println("b:" + b);
-		System.out.println("memoryAddress:" + memoryAddress);
-		System.out.println("rnr:" + rnr);
-		System.out.println("number:" + number);
-		*/
-		//CLR Rnr
+		 * //Debugging info System.out.println("b:" + b);
+		 * System.out.println("memoryAddress:" + memoryAddress);
+		 * System.out.println("rnr:" + rnr); System.out.println("number:" +
+		 * number);
+		 */
+		// CLR Rnr
 		p = Pattern.compile("^0000[01][01]101");
-		if(p.matcher(b).find()){
+		if (p.matcher(b).find()) {
 			instruction = InstructionSet.CLR;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//ADD Rnr
+
+		// ADD Rnr
 		p = Pattern.compile("^0000[01][01]111");
-		if(p.matcher(b).find()){
+		if (p.matcher(b).find()) {
 			instruction = InstructionSet.ADD;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());	
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//ADDD
-		if(b.substring(0, 1).equals("1")){
+
+		// ADDD
+		if (b.substring(0, 1).equals("1")) {
 			instruction = InstructionSet.ADDD;
 			memoryAddress = -1;
 			rnr = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());	
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//INC
-		if(b.substring(0, 8).equals("00000001")){
+
+		// INC
+		if (b.substring(0, 8).equals("00000001")) {
 			instruction = InstructionSet.INC;
 			memoryAddress = -1;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());	
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//DEC
-		if(b.substring(0, 8).equals("00000100")){
+
+		// DEC
+		if (b.substring(0, 8).equals("00000100")) {
 			instruction = InstructionSet.DEC;
 			memoryAddress = -1;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//LWDD
-		if(b.substring(0, 3).equals("010")){
+
+		// LWDD
+		if (b.substring(0, 3).equals("010")) {
 			instruction = InstructionSet.LWDD;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
-			
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
+
 		}
-		
-		//SWDD
-		if(b.substring(0, 3).equals("011")){
+
+		// SWDD
+		if (b.substring(0, 3).equals("011")) {
 			instruction = InstructionSet.SWDD;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//SRA
-		if(b.substring(0, 8).equals("00000101")){
+
+		// SRA
+		if (b.substring(0, 8).equals("00000101")) {
 			instruction = InstructionSet.SRA;
 			memoryAddress = -1;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//SLA
-		if(b.substring(0, 8).equals("00001000")){
+
+		// SLA
+		if (b.substring(0, 8).equals("00001000")) {
 			instruction = InstructionSet.SLA;
 			memoryAddress = -1;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
 
-		//SRL
-		if(b.substring(0, 8).equals("00001001")){
+		// SRL
+		if (b.substring(0, 8).equals("00001001")) {
 			instruction = InstructionSet.SRL;
 			memoryAddress = -1;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//SLL
-		if(b.substring(0, 8).equals("00001100")){
+
+		// SLL
+		if (b.substring(0, 8).equals("00001100")) {
 			instruction = InstructionSet.SLL;
 			memoryAddress = -1;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//AND
+
+		// AND
 		p = Pattern.compile("^0000[0,1][0,1]100");
-		if(p.matcher(b).find()){
+		if (p.matcher(b).find()) {
 			instruction = InstructionSet.AND;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//OR
+
+		// OR
 		p = Pattern.compile("^0000[01][01]110");
-		if(p.matcher(b).find()){
+		if (p.matcher(b).find()) {
 			instruction = InstructionSet.OR;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());		
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//NOT
-		if(b.substring(0, 8).equals("00000000")){
+
+		// NOT
+		if (b.substring(0, 8).equals("00000001")) {
 			instruction = InstructionSet.NOT;
 			rnr = -1;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//BZ
+
+		// END
+		if (b.substring(0, 8).equals("00000000")) {
+			instruction = InstructionSet.END;
+			rnr = -1;
+			memoryAddress = -1;
+			number = -1;
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
+		}
+
+		// BZ
 		p = Pattern.compile("^0001[01][01]10");
-		if(p.matcher(b).find()){
+		if (p.matcher(b).find()) {
 			instruction = InstructionSet.BZ;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//BNZ
+
+		// BNZ
 		p = Pattern.compile("^0001[01][01]01");
-		if(p.matcher(b).find()){
+		if (p.matcher(b).find()) {
 			instruction = InstructionSet.BNZ;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//BC
+
+		// BC
 		p = Pattern.compile("^0001[01][01]11");
-		if(p.matcher(b).find()){
+		if (p.matcher(b).find()) {
 			instruction = InstructionSet.BC;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//B
+
+		// B
 		p = Pattern.compile("^0001[01][01]00");
-		if(p.matcher(b).find()){
+		if (p.matcher(b).find()) {
 			instruction = InstructionSet.B;
 			memoryAddress = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//BZD
-		if(b.substring(0, 5).equals("00110")){
+
+		// BZD
+		if (b.substring(0, 5).equals("00110")) {
 			instruction = InstructionSet.BZD;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//BNZD
-		if(b.substring(0, 5).equals("00101")){
+
+		// BNZD
+		if (b.substring(0, 5).equals("00101")) {
 			instruction = InstructionSet.BNZD;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//BCD
-		if(b.substring(0, 5).equals("00111")){
+
+		// BCD
+		if (b.substring(0, 5).equals("00111")) {
 			instruction = InstructionSet.BCD;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
-		//BD
-		if(b.substring(0, 5).equals("00100")){
+
+		// BD
+		if (b.substring(0, 5).equals("00100")) {
 			instruction = InstructionSet.BD;
 			rnr = -1;
 			number = -1;
-			return new Instruction(memoryAddress, rnr, number, instruction, input.getBinaryString());			
+			return new Instruction(memoryAddress, rnr, number, instruction,
+					input.getBinaryString());
 		}
-		
+
 		return null;
 	}
-	
+
 	public short getMemoryAddress() {
 		return memoryAddress;
 	}
@@ -267,7 +301,6 @@ public class Instruction {
 		return rnr;
 	}
 
-
 	public int getNumber() {
 		return number;
 	}
@@ -275,11 +308,12 @@ public class Instruction {
 	public InstructionSet getInstruction() {
 		return instruction;
 	}
-	
-	public void run(MiniPowerPC emu){
-		System.out.println(this.instruction + ";rnr:"+this.rnr + ";memoryaddr:" + this.memoryAddress + ";no:" + this.number);
-		
-		switch(instruction){
+
+	public void run(MiniPowerPC emu) {
+		System.out.println(this.instruction + ";rnr:" + this.rnr
+				+ ";memoryaddr:" + this.memoryAddress + ";no:" + this.number);
+
+		switch (instruction) {
 		case CLR:
 			emu.clr(rnr);
 			break;
@@ -295,7 +329,7 @@ public class Instruction {
 		case DEC:
 			emu.dec();
 			break;
-		case LWDD:  
+		case LWDD:
 			emu.lwdd(rnr, memoryAddress);
 			break;
 		case SWDD:
@@ -322,6 +356,9 @@ public class Instruction {
 		case NOT:
 			emu.not();
 			break;
+		case END:
+			emu.end();
+			break;
 		case BZ:
 			emu.bz(rnr);
 			break;
@@ -344,7 +381,7 @@ public class Instruction {
 			emu.bcd(memoryAddress);
 			break;
 		case BD:
-			emu.bd(memoryAddress);	
+			emu.bd(memoryAddress);
 		}
 	}
 }
