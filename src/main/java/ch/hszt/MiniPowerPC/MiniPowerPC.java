@@ -3,10 +3,13 @@ package ch.hszt.MiniPowerPC;
 import ch.hszt.MiniPowerPC.helper.Helper;
 
 public class MiniPowerPC {
+	public final static int START_OF_INSTR_REG = 100;
+	public final static int END_OF_INSTR_REG = 499;
+	
 	private short carryFlag = 0;
 	private MemoryEntry[] memory;
 	private int[] register = new int[4]; // register[0] = akku, 1-3 register
-	private int instructionCounter = 100;
+	private int instructionCounter = START_OF_INSTR_REG;
 	private long stepCounter;
 	private Instruction instructionReg;
 
@@ -82,7 +85,7 @@ public class MiniPowerPC {
 	 * Get the next instruction
 	 */
 	public void getNextInstruction(){
-		while (memory[instructionCounter] == null && instructionCounter < 499) {
+		while (memory[instructionCounter] == null && instructionCounter < END_OF_INSTR_REG) {
 			instructionCounter++;
 		}
 		if(memory[instructionCounter] != null){
@@ -105,7 +108,20 @@ public class MiniPowerPC {
 		}
 	}	
 	
-
+	public void reset() {
+		//Reset all values
+		instructionCounter = START_OF_INSTR_REG;
+		stepCounter = 0;
+		for(int i = 0;i < register.length;i++){
+			register[i] = 0;
+		}
+		carryFlag = 0;
+		
+		//Get first instruction
+		getNextInstruction();
+	}
+	
+	
 	/**
 	 * Register rnr := 0
 	 * 
@@ -398,7 +414,9 @@ public class MiniPowerPC {
 	 *	
 	 */
 	public void end() {
-		instructionCounter = 498;
+		instructionCounter = (END_OF_INSTR_REG-1);
 	}
+
+
 	
 }

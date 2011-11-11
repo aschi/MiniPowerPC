@@ -1,7 +1,9 @@
 package ch.hszt.MiniPowerPC;
 
-import ch.hszt.MiniPowerPC.GUI.MiniPowerPCGUI;
 import java.io.File;
+
+import ch.hszt.MiniPowerPC.GUI.MiniPowerPCGUI;
+import ch.hszt.MiniPowerPC.helper.MemoryParser;
 
 public class Controller implements ControllerIfc {
 	private MiniPowerPC emu;
@@ -89,9 +91,16 @@ public class Controller implements ControllerIfc {
 	}
 
     public void loadProgramm(File inProgramm) throws IllegalArgumentException {
-        //TODO Handle the Load Programm Funktion. Needs a Factory for a given Textfile.
+    	MemoryEntry[] m = MemoryParser.parseTextFile(inProgramm); 
+    	if(m != null){
+    		emu.setMemory(m);
+    		emu.reset();
+    		updateGUI();
+    	}
     }
 
+    
+    
     public void setMultiplicationOP(int inMemoryPos1, int inOP1, int inMemoryPos2, int inOP2) {
         //TODO write input Operators to the corresponding Memory Position
         

@@ -13,6 +13,8 @@ package ch.hszt.MiniPowerPC.GUI;
 import ch.hszt.MiniPowerPC.ControllerIfc;
 import ch.hszt.MiniPowerPC.Instruction;
 import ch.hszt.MiniPowerPC.MemoryEntry;
+import ch.hszt.MiniPowerPC.MiniPowerPC;
+
 import java.io.File;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -879,7 +881,7 @@ private void _jTxtDOP2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
 			if (inMemory[i] != null) {
 				row[0] = String.valueOf(i);
 				row[1] = String.valueOf(inMemory[i].getBinaryString());
-				if(i < 500){
+				if(i <= MiniPowerPC.END_OF_INSTR_REG){
 					row[2] = Instruction.parseInstruction(inMemory[i]).toString();
 				}else{
 					row[2] = String.valueOf(inMemory[i].getNumericValue());	
