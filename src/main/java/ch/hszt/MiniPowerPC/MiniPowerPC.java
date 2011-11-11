@@ -3,63 +3,108 @@ package ch.hszt.MiniPowerPC;
 import ch.hszt.MiniPowerPC.helper.Helper;
 
 public class MiniPowerPC {
-	short carryFlag = 0;
-	MemoryEntry[] memory;
-	int[] register = new int[4]; // register[0] = akku, 1-3 register
-	int instructionCounter = 100;
+	private short carryFlag = 0;
+	private MemoryEntry[] memory;
+	private int[] register = new int[4]; // register[0] = akku, 1-3 register
+	private int instructionCounter = 100;
+	private long stepCounter;
+	private Instruction instructionReg;
 
 	public MiniPowerPC(MemoryEntry[] memory) {
 		this.memory = memory;
+		getNextInstruction();
+	}
+
+	public MiniPowerPC(MemoryEntry[] memory, int instructionCounter){
+		this(memory);
+		setInstructionCounter(instructionCounter);
 	}
 	
 	public void setCarryFlag(short carryFlag) {
 		this.carryFlag = carryFlag;
 	}
-	
-	public void setAkku(int i){
+
+	public void setAkku(int i) {
 		register[0] = i;
 	}
 
-	//Geter and seter for memory
-	public MemoryEntry[] getMemory(){
+	public Instruction getInstructionReg(){
+		return instructionReg;
+	}
+	
+	public int getAkku(){
+		return register[0];
+	}
+	
+	public int[] getRegister(){
+		return register;
+	}
+
+	public int getInstructionCounter(){
+		return instructionCounter;
+	}
+	
+	public short getCarryFlag() {
+		return carryFlag;
+	}
+
+	public long getStepCounter() {
+		return stepCounter;
+	}
+
+	// Geter and seter for memory
+	public MemoryEntry[] getMemory() {
 		return memory;
 	}
 
-	public void setMemory(MemoryEntry[] memory){
+	public void setMemory(MemoryEntry[] memory) {
 		this.memory = memory;
 	}
-	
-	public void setInstructionCounter(int instructionCounter){
-		this.instructionCounter = instructionCounter;
-	}
-	
-	public void run() {
-		Instruction i;
 
-		while (instructionCounter < 500) {
-			if (memory[instructionCounter] != null) {
-				i = Instruction.parseInstruction(memory[instructionCounter]);
-				if (i != null) {
-					System.out
-							.println("--------------------------------------");
-					for (int x = 0; x <= 3; x++) {
-						System.out
-								.println("register[" + x + "]:" + register[x]);
-					}
-					System.out.println("carryFlag: " + carryFlag);
-					System.out.println("Instruction: "
-							+ i.getInstruction().toString() + "; rnr: "
-							+ i.getRnr() + "; memoryAddress: "
-							+ i.getMemoryAddress() + "; number:"
-							+ i.getNumber());
-					System.out.println();
-					
-					i.run(this);
-				}
-			}
+	public void setInstructionCounter(int instructionCounter) {
+		this.instructionCounter = instructionCounter;
+		getNextInstruction();
+	}
+
+	/**
+	 * Run whole simulation
+	 */
+	public void run() {
+		while(instructionReg != null){
+			instructionReg.run(this);
 			instructionCounter++;
+			stepCounter++;
+			getNextInstruction();
 		}
 	}
+	
+	/**
+	 * Get the next instruction
+	 */
+	public void getNextInstruction(){
+		while (memory[instructionCounter] == null && instructionCounter < 499) {
+			instructionCounter++;
+		}
+		if(memory[instructionCounter] != null){
+			instructionReg = Instruction.parseInstruction(memory[instructionCounter]); 
+		}else{
+			//finished
+			instructionReg = null;
+		}
+	}
+	
+	/**
+	 * Run a single instruction
+	 */
+	public void nextStep() {
+		if(instructionReg != null){
+			instructionReg.run(this);
+			instructionCounter++;
+			stepCounter++;
+			getNextInstruction();
+		}
+	}	
+	
 
 	/**
 	 * Register rnr := 0
@@ -144,7 +189,6 @@ public class MiniPowerPC {
 			ca[i] = ca[i - 1];
 		}
 
-		
 		register[0] = Helper.binaryCharArrayToInt(ca, true);
 	}
 
@@ -179,7 +223,7 @@ public class MiniPowerPC {
 				.getBinaryString().length - 1]));
 
 		char[] ca = m.getBinaryString();
-		
+
 		// shift right
 		for (int i = ca.length - 1; i > 0; i--) {
 			ca[i] = ca[i - 1];
@@ -198,11 +242,11 @@ public class MiniPowerPC {
 
 		char[] ca = m.getBinaryString();
 		// shift left
-		for (int i = 0; i < ca.length-1; i++) {
+		for (int i = 0; i < ca.length - 1; i++) {
 			ca[i] = ca[i + 1];
 		}
 		// add a 0 to fill the gap
-		ca[ca.length-1] = '0';
+		ca[ca.length - 1] = '0';
 		register[0] = Helper.binaryCharArrayToInt(ca, true);
 	}
 
@@ -302,7 +346,8 @@ public class MiniPowerPC {
 	 * @param rnr
 	 */
 	public void b(short rnr) {
-		instructionCounter = (register[rnr]-1); //-1 because it will be incremented immediately
+		instructionCounter = (register[rnr] - 1); // -1 because it will be
+													// incremented immediately
 	}
 
 	/**
@@ -344,7 +389,16 @@ public class MiniPowerPC {
 	 * @param adr
 	 */
 	public void bd(short adr) {
-		instructionCounter = (adr-1); //-1 because it will be incremented immediately
+		instructionCounter = (adr - 1); // -1 because it will be incremented
+										// immediately
 	}
 
+	/**
+	 * Unconditional Jump to the end of our instruction memory
+	 *	
+	 */
+	public void end() {
+		instructionCounter = 498;
+	}
+	
 }

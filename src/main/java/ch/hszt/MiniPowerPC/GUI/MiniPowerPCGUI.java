@@ -11,17 +11,18 @@
 package ch.hszt.MiniPowerPC.GUI;
 
 import ch.hszt.MiniPowerPC.ControllerIfc;
+import ch.hszt.MiniPowerPC.Instruction;
 import ch.hszt.MiniPowerPC.MemoryEntry;
 import javax.swing.table.DefaultTableModel;
-
-
 
 /**
  * 
  * @author rest
  */
-public class MiniPowerPCGUI extends javax.swing.JFrame implements MiniPowerPCUIIfc{
-    private DefaultTableModel _MemTblModel;
+public class MiniPowerPCGUI extends javax.swing.JFrame implements
+		MiniPowerPCUIIfc {
+	private DefaultTableModel _MemTblModel;
+	private DefaultTableModel _BefRegTblModel;
 	private final ControllerIfc _controller;
 
 	/** Creates new form MiniPowerPCGUI */
@@ -29,7 +30,11 @@ public class MiniPowerPCGUI extends javax.swing.JFrame implements MiniPowerPCUII
 
 		_controller = inController;
 		init();
-                _MemTblModel = new DefaultTableModel();
+
+		String[] columnNames = { "Addr", "Binary", "Value" };
+		_MemTblModel = new ReadOnlyTableModel(columnNames, 0);
+		columnNames = new String[]{"Mnemonics", "Binary"};
+		_BefRegTblModel = new ReadOnlyTableModel(columnNames, 0);
 		initComponents();
 		setVisible(true);
 	}
@@ -41,364 +46,553 @@ public class MiniPowerPCGUI extends javax.swing.JFrame implements MiniPowerPCUII
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents() {
 
-        _btnGroup = new javax.swing.ButtonGroup();
-        _jPanelAkku = new javax.swing.JPanel();
-        _jTxtAkku = new javax.swing.JTextField();
-        _jPanelReg1 = new javax.swing.JPanel();
-        _jTxtReg1 = new javax.swing.JTextField();
-        _jPanelReg2 = new javax.swing.JPanel();
-        _jTxtReg2 = new javax.swing.JTextField();
-        _jPanelReg3 = new javax.swing.JPanel();
-        _jTxtReg3 = new javax.swing.JTextField();
-        _jPanelBefZ = new javax.swing.JPanel();
-        _jTxtBefZ = new javax.swing.JTextField();
-        _jPanelMemory = new javax.swing.JPanel();
-        _jScrollPaneMem = new javax.swing.JScrollPane();
-        _jTblMem = new javax.swing.JTable();
-        _jPanelBefZ1 = new javax.swing.JPanel();
-        _jTxtCarryBit = new javax.swing.JTextField();
-        _jPanelBefReg = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        _jTblBefReg = new javax.swing.JTable();
-        _jPanelCountBef = new javax.swing.JPanel();
-        _jTxtCountBef = new javax.swing.JTextField();
-        _jSeparator = new javax.swing.JSeparator();
-        _jBtnRun = new javax.swing.JButton();
-        _jBtnNextStep = new javax.swing.JButton();
-        _jPanelExposition = new javax.swing.JPanel();
-        _jRadioBtnBin = new javax.swing.JRadioButton();
-        _jRadioBtnDez = new javax.swing.JRadioButton();
-        _jMenuBar = new javax.swing.JMenuBar();
-        _jMenuFile = new javax.swing.JMenu();
-        _jMenuEdit = new javax.swing.JMenu();
+		_btnGroup = new javax.swing.ButtonGroup();
+		_jPanelAkku = new javax.swing.JPanel();
+		_jTxtAkku = new javax.swing.JTextField();
+		_jPanelReg1 = new javax.swing.JPanel();
+		_jTxtReg1 = new javax.swing.JTextField();
+		_jPanelReg2 = new javax.swing.JPanel();
+		_jTxtReg2 = new javax.swing.JTextField();
+		_jPanelReg3 = new javax.swing.JPanel();
+		_jTxtReg3 = new javax.swing.JTextField();
+		_jPanelBefZ = new javax.swing.JPanel();
+		_jTxtBefZ = new javax.swing.JTextField();
+		_jPanelMemory = new javax.swing.JPanel();
+		_jScrollPaneMem = new javax.swing.JScrollPane();
+		_jTblMem = new javax.swing.JTable(_MemTblModel);
+		_jPanelBefZ1 = new javax.swing.JPanel();
+		_jTxtCarryBit = new javax.swing.JTextField();
+		_jPanelBefReg = new javax.swing.JPanel();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		_jTblBefReg = new javax.swing.JTable(_BefRegTblModel);
+		_jPanelCountBef = new javax.swing.JPanel();
+		_jTxtCountBef = new javax.swing.JTextField();
+		_jSeparator = new javax.swing.JSeparator();
+		_jBtnRun = new javax.swing.JButton();
+		_jBtnNextStep = new javax.swing.JButton();
+		_jPanelExposition = new javax.swing.JPanel();
+		_jRadioBtnBin = new javax.swing.JRadioButton();
+		_jRadioBtnDez = new javax.swing.JRadioButton();
+		_jMenuBar = new javax.swing.JMenuBar();
+		_jMenuFile = new javax.swing.JMenu();
+		_jMenuEdit = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        _jPanelAkku.setBorder(javax.swing.BorderFactory.createTitledBorder("Akkumulator"));
+		_jPanelAkku.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Akkumulator"));
 
-        _jTxtAkku.setColumns(16);
-        _jTxtAkku.setEditable(false);
+		_jTxtAkku.setColumns(16);
+		_jTxtAkku.setEditable(false);
 
-        javax.swing.GroupLayout _jPanelAkkuLayout = new javax.swing.GroupLayout(_jPanelAkku);
-        _jPanelAkku.setLayout(_jPanelAkkuLayout);
-        _jPanelAkkuLayout.setHorizontalGroup(
-            _jPanelAkkuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtAkku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        _jPanelAkkuLayout.setVerticalGroup(
-            _jPanelAkkuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtAkku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+		javax.swing.GroupLayout _jPanelAkkuLayout = new javax.swing.GroupLayout(
+				_jPanelAkku);
+		_jPanelAkku.setLayout(_jPanelAkkuLayout);
+		_jPanelAkkuLayout.setHorizontalGroup(_jPanelAkkuLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtAkku,
+						javax.swing.GroupLayout.PREFERRED_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
+		_jPanelAkkuLayout.setVerticalGroup(_jPanelAkkuLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtAkku,
+						javax.swing.GroupLayout.PREFERRED_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
 
-        _jPanelReg1.setBorder(javax.swing.BorderFactory.createTitledBorder("Register 1"));
+		_jPanelReg1.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Register 1"));
 
-        _jTxtReg1.setColumns(16);
-        _jTxtReg1.setEditable(false);
+		_jTxtReg1.setColumns(16);
+		_jTxtReg1.setEditable(false);
 
-        javax.swing.GroupLayout _jPanelReg1Layout = new javax.swing.GroupLayout(_jPanelReg1);
-        _jPanelReg1.setLayout(_jPanelReg1Layout);
-        _jPanelReg1Layout.setHorizontalGroup(
-            _jPanelReg1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtReg1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        _jPanelReg1Layout.setVerticalGroup(
-            _jPanelReg1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtReg1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+		javax.swing.GroupLayout _jPanelReg1Layout = new javax.swing.GroupLayout(
+				_jPanelReg1);
+		_jPanelReg1.setLayout(_jPanelReg1Layout);
+		_jPanelReg1Layout.setHorizontalGroup(_jPanelReg1Layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtReg1,
+						javax.swing.GroupLayout.PREFERRED_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
+		_jPanelReg1Layout.setVerticalGroup(_jPanelReg1Layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtReg1,
+						javax.swing.GroupLayout.PREFERRED_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
 
-        _jPanelReg2.setBorder(javax.swing.BorderFactory.createTitledBorder("Register 2"));
+		_jPanelReg2.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Register 2"));
 
-        _jTxtReg2.setColumns(16);
-        _jTxtReg2.setEditable(false);
+		_jTxtReg2.setColumns(16);
+		_jTxtReg2.setEditable(false);
 
-        javax.swing.GroupLayout _jPanelReg2Layout = new javax.swing.GroupLayout(_jPanelReg2);
-        _jPanelReg2.setLayout(_jPanelReg2Layout);
-        _jPanelReg2Layout.setHorizontalGroup(
-            _jPanelReg2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtReg2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        _jPanelReg2Layout.setVerticalGroup(
-            _jPanelReg2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtReg2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+		javax.swing.GroupLayout _jPanelReg2Layout = new javax.swing.GroupLayout(
+				_jPanelReg2);
+		_jPanelReg2.setLayout(_jPanelReg2Layout);
+		_jPanelReg2Layout.setHorizontalGroup(_jPanelReg2Layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtReg2,
+						javax.swing.GroupLayout.PREFERRED_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
+		_jPanelReg2Layout.setVerticalGroup(_jPanelReg2Layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtReg2,
+						javax.swing.GroupLayout.PREFERRED_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
 
-        _jPanelReg3.setBorder(javax.swing.BorderFactory.createTitledBorder("Register 3"));
+		_jPanelReg3.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Register 3"));
 
-        _jTxtReg3.setColumns(16);
-        _jTxtReg3.setEditable(false);
+		_jTxtReg3.setColumns(16);
+		_jTxtReg3.setEditable(false);
 
-        javax.swing.GroupLayout _jPanelReg3Layout = new javax.swing.GroupLayout(_jPanelReg3);
-        _jPanelReg3.setLayout(_jPanelReg3Layout);
-        _jPanelReg3Layout.setHorizontalGroup(
-            _jPanelReg3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtReg3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        _jPanelReg3Layout.setVerticalGroup(
-            _jPanelReg3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtReg3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+		javax.swing.GroupLayout _jPanelReg3Layout = new javax.swing.GroupLayout(
+				_jPanelReg3);
+		_jPanelReg3.setLayout(_jPanelReg3Layout);
+		_jPanelReg3Layout.setHorizontalGroup(_jPanelReg3Layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtReg3,
+						javax.swing.GroupLayout.PREFERRED_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
+		_jPanelReg3Layout.setVerticalGroup(_jPanelReg3Layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtReg3,
+						javax.swing.GroupLayout.PREFERRED_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
 
-        _jPanelBefZ.setBorder(javax.swing.BorderFactory.createTitledBorder("Befehlszähler"));
+		_jPanelBefZ.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Befehlszähler"));
 
-        _jTxtBefZ.setColumns(16);
-        _jTxtBefZ.setEditable(false);
+		_jTxtBefZ.setColumns(16);
+		_jTxtBefZ.setEditable(false);
 
-        javax.swing.GroupLayout _jPanelBefZLayout = new javax.swing.GroupLayout(_jPanelBefZ);
-        _jPanelBefZ.setLayout(_jPanelBefZLayout);
-        _jPanelBefZLayout.setHorizontalGroup(
-            _jPanelBefZLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtBefZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        _jPanelBefZLayout.setVerticalGroup(
-            _jPanelBefZLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtBefZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+		javax.swing.GroupLayout _jPanelBefZLayout = new javax.swing.GroupLayout(
+				_jPanelBefZ);
+		_jPanelBefZ.setLayout(_jPanelBefZLayout);
+		_jPanelBefZLayout.setHorizontalGroup(_jPanelBefZLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtBefZ,
+						javax.swing.GroupLayout.PREFERRED_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
+		_jPanelBefZLayout.setVerticalGroup(_jPanelBefZLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtBefZ,
+						javax.swing.GroupLayout.PREFERRED_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
 
-        _jPanelMemory.setBorder(javax.swing.BorderFactory.createTitledBorder("Memory"));
+		_jPanelMemory.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Memory"));
 
-        _jTblMem.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+		_jTblMem.setModel(new javax.swing.table.DefaultTableModel(
+				new Object[][] {
 
-            },
-            new String [] {
-                "#Addr", "Bin Value", "Dec Value"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
+				}, new String[] { "#Addr", "Bin Value", "Dec Value" }) {
+			Class[] types = new Class[] { java.lang.String.class,
+					java.lang.String.class, java.lang.String.class };
+			boolean[] canEdit = new boolean[] { false, false, false };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
+			public Class getColumnClass(int columnIndex) {
+				return types[columnIndex];
+			}
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        _jScrollPaneMem.setViewportView(_jTblMem);
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return canEdit[columnIndex];
+			}
+		});
+		_jScrollPaneMem.setViewportView(_jTblMem);
 
-        javax.swing.GroupLayout _jPanelMemoryLayout = new javax.swing.GroupLayout(_jPanelMemory);
-        _jPanelMemory.setLayout(_jPanelMemoryLayout);
-        _jPanelMemoryLayout.setHorizontalGroup(
-            _jPanelMemoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, _jPanelMemoryLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(_jScrollPaneMem, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        _jPanelMemoryLayout.setVerticalGroup(
-            _jPanelMemoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(_jPanelMemoryLayout.createSequentialGroup()
-                .addComponent(_jScrollPaneMem, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
+		javax.swing.GroupLayout _jPanelMemoryLayout = new javax.swing.GroupLayout(
+				_jPanelMemory);
+		_jPanelMemory.setLayout(_jPanelMemoryLayout);
+		_jPanelMemoryLayout
+				.setHorizontalGroup(_jPanelMemoryLayout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								javax.swing.GroupLayout.Alignment.TRAILING,
+								_jPanelMemoryLayout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addComponent(
+												_jScrollPaneMem,
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												352, Short.MAX_VALUE)
+										.addContainerGap()));
+		_jPanelMemoryLayout.setVerticalGroup(_jPanelMemoryLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						_jPanelMemoryLayout
+								.createSequentialGroup()
+								.addComponent(_jScrollPaneMem,
+										javax.swing.GroupLayout.PREFERRED_SIZE,
+										462,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(15, Short.MAX_VALUE)));
 
-        _jPanelBefZ1.setBorder(javax.swing.BorderFactory.createTitledBorder("Carry Bit"));
+		_jPanelBefZ1.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Carry Bit"));
 
-        _jTxtCarryBit.setColumns(1);
-        _jTxtCarryBit.setEditable(false);
+		_jTxtCarryBit.setColumns(1);
+		_jTxtCarryBit.setEditable(false);
 
-        javax.swing.GroupLayout _jPanelBefZ1Layout = new javax.swing.GroupLayout(_jPanelBefZ1);
-        _jPanelBefZ1.setLayout(_jPanelBefZ1Layout);
-        _jPanelBefZ1Layout.setHorizontalGroup(
-            _jPanelBefZ1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(_jPanelBefZ1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(_jTxtCarryBit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
-        _jPanelBefZ1Layout.setVerticalGroup(
-            _jPanelBefZ1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtCarryBit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+		javax.swing.GroupLayout _jPanelBefZ1Layout = new javax.swing.GroupLayout(
+				_jPanelBefZ1);
+		_jPanelBefZ1.setLayout(_jPanelBefZ1Layout);
+		_jPanelBefZ1Layout.setHorizontalGroup(_jPanelBefZ1Layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						_jPanelBefZ1Layout
+								.createSequentialGroup()
+								.addGap(18, 18, 18)
+								.addComponent(_jTxtCarryBit,
+										javax.swing.GroupLayout.PREFERRED_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(25, Short.MAX_VALUE)));
+		_jPanelBefZ1Layout.setVerticalGroup(_jPanelBefZ1Layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtCarryBit,
+						javax.swing.GroupLayout.PREFERRED_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
 
-        _jPanelBefReg.setBorder(javax.swing.BorderFactory.createTitledBorder("Befehlsregister"));
+		_jPanelBefReg.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Befehlsregister"));
 
-        _jTblBefReg.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null}
-            },
-            new String [] {
-                "Mnemonic", "Wert"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
+		_jTblBefReg.setModel(new javax.swing.table.DefaultTableModel(
+				new Object[][] { { null, null } }, new String[] { "Mnemonic",
+						"Wert" }) {
+			Class[] types = new Class[] { java.lang.String.class,
+					java.lang.String.class };
+			boolean[] canEdit = new boolean[] { false, false };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
+			public Class getColumnClass(int columnIndex) {
+				return types[columnIndex];
+			}
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(_jTblBefReg);
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return canEdit[columnIndex];
+			}
+		});
+		jScrollPane1.setViewportView(_jTblBefReg);
 
-        javax.swing.GroupLayout _jPanelBefRegLayout = new javax.swing.GroupLayout(_jPanelBefReg);
-        _jPanelBefReg.setLayout(_jPanelBefRegLayout);
-        _jPanelBefRegLayout.setHorizontalGroup(
-            _jPanelBefRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-        );
-        _jPanelBefRegLayout.setVerticalGroup(
-            _jPanelBefRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+		javax.swing.GroupLayout _jPanelBefRegLayout = new javax.swing.GroupLayout(
+				_jPanelBefReg);
+		_jPanelBefReg.setLayout(_jPanelBefRegLayout);
+		_jPanelBefRegLayout.setHorizontalGroup(_jPanelBefRegLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(jScrollPane1,
+						javax.swing.GroupLayout.DEFAULT_SIZE, 235,
+						Short.MAX_VALUE));
+		_jPanelBefRegLayout.setVerticalGroup(_jPanelBefRegLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(jScrollPane1,
+						javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
 
-        _jPanelCountBef.setBorder(javax.swing.BorderFactory.createTitledBorder("Anzahl durchgeführter Befehle"));
+		_jPanelCountBef.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Anzahl durchgeführter Befehle"));
 
-        _jTxtCountBef.setColumns(16);
-        _jTxtCountBef.setEditable(false);
+		_jTxtCountBef.setColumns(16);
+		_jTxtCountBef.setEditable(false);
 
-        javax.swing.GroupLayout _jPanelCountBefLayout = new javax.swing.GroupLayout(_jPanelCountBef);
-        _jPanelCountBef.setLayout(_jPanelCountBefLayout);
-        _jPanelCountBefLayout.setHorizontalGroup(
-            _jPanelCountBefLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtCountBef, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        _jPanelCountBefLayout.setVerticalGroup(
-            _jPanelCountBefLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_jTxtCountBef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+		javax.swing.GroupLayout _jPanelCountBefLayout = new javax.swing.GroupLayout(
+				_jPanelCountBef);
+		_jPanelCountBef.setLayout(_jPanelCountBefLayout);
+		_jPanelCountBefLayout.setHorizontalGroup(_jPanelCountBefLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtCountBef,
+						javax.swing.GroupLayout.PREFERRED_SIZE, 174,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
+		_jPanelCountBefLayout.setVerticalGroup(_jPanelCountBefLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(_jTxtCountBef,
+						javax.swing.GroupLayout.PREFERRED_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.PREFERRED_SIZE));
 
-        _jBtnRun.setText("Run");
-        _jBtnRun.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _jBtnRunActionPerformed(evt);
-            }
-        });
+		_jBtnRun.setText("Run");
+		_jBtnRun.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				_jBtnRunActionPerformed(evt);
+			}
+		});
 
-        _jBtnNextStep.setText("Next Step");
-        _jBtnNextStep.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _jBtnNextStepActionPerformed(evt);
-            }
-        });
+		_jBtnNextStep.setText("Next Step");
+		_jBtnNextStep.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				_jBtnNextStepActionPerformed(evt);
+			}
+		});
 
-        _jPanelExposition.setBorder(javax.swing.BorderFactory.createTitledBorder("Darstellung"));
+		_jPanelExposition.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Darstellung"));
 
-        _btnGroup.add(_jRadioBtnBin);
-        _jRadioBtnBin.setSelected(true);
-        _jRadioBtnBin.setText("Binärdarstellung");
+		_btnGroup.add(_jRadioBtnBin);
+		_jRadioBtnBin.setSelected(true);
+		_jRadioBtnBin.setText("Binärdarstellung");
 
-        _btnGroup.add(_jRadioBtnDez);
-        _jRadioBtnDez.setText("Dezimaldarstellung");
+		_btnGroup.add(_jRadioBtnDez);
+		_jRadioBtnDez.setText("Dezimaldarstellung");
 
-        javax.swing.GroupLayout _jPanelExpositionLayout = new javax.swing.GroupLayout(_jPanelExposition);
-        _jPanelExposition.setLayout(_jPanelExpositionLayout);
-        _jPanelExpositionLayout.setHorizontalGroup(
-            _jPanelExpositionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(_jPanelExpositionLayout.createSequentialGroup()
-                .addGroup(_jPanelExpositionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(_jRadioBtnBin)
-                    .addComponent(_jRadioBtnDez))
-                .addContainerGap())
-        );
-        _jPanelExpositionLayout.setVerticalGroup(
-            _jPanelExpositionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(_jPanelExpositionLayout.createSequentialGroup()
-                .addComponent(_jRadioBtnBin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, Short.MAX_VALUE)
-                .addComponent(_jRadioBtnDez))
-        );
+		javax.swing.GroupLayout _jPanelExpositionLayout = new javax.swing.GroupLayout(
+				_jPanelExposition);
+		_jPanelExposition.setLayout(_jPanelExpositionLayout);
+		_jPanelExpositionLayout
+				.setHorizontalGroup(_jPanelExpositionLayout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								_jPanelExpositionLayout
+										.createSequentialGroup()
+										.addGroup(
+												_jPanelExpositionLayout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.LEADING)
+														.addComponent(
+																_jRadioBtnBin)
+														.addComponent(
+																_jRadioBtnDez))
+										.addContainerGap()));
+		_jPanelExpositionLayout
+				.setVerticalGroup(_jPanelExpositionLayout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								_jPanelExpositionLayout
+										.createSequentialGroup()
+										.addComponent(_jRadioBtnBin)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+												3, Short.MAX_VALUE)
+										.addComponent(_jRadioBtnDez)));
 
-        _jMenuFile.setText("File");
-        _jMenuBar.add(_jMenuFile);
+		_jMenuFile.setText("File");
+		_jMenuBar.add(_jMenuFile);
 
-        _jMenuEdit.setText("Edit");
-        _jMenuBar.add(_jMenuEdit);
+		_jMenuEdit.setText("Edit");
+		_jMenuBar.add(_jMenuEdit);
 
-        setJMenuBar(_jMenuBar);
+		setJMenuBar(_jMenuBar);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(_jSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(_jPanelAkku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(_jPanelReg1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(_jPanelReg2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(_jPanelReg3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(_jPanelBefZ1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(_jPanelBefZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(_jPanelCountBef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(_jPanelExposition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(_jPanelBefReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(_jPanelMemory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(_jBtnNextStep)
-                        .addGap(29, 29, 29)
-                        .addComponent(_jBtnRun, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(_jPanelBefZ1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(_jPanelAkku, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(_jPanelReg1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(_jPanelReg2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(_jPanelReg3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(_jPanelBefZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(_jPanelBefReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                        .addComponent(_jPanelCountBef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(_jPanelExposition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(_jPanelMemory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(_jSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(_jBtnRun)
-                    .addComponent(_jBtnNextStep))
-                .addContainerGap())
-        );
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
+				getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setHorizontalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+												.addComponent(
+														_jSeparator,
+														javax.swing.GroupLayout.DEFAULT_SIZE,
+														679, Short.MAX_VALUE)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.LEADING)
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGroup(
+																										layout.createParallelGroup(
+																												javax.swing.GroupLayout.Alignment.LEADING)
+																												.addComponent(
+																														_jPanelAkku,
+																														javax.swing.GroupLayout.PREFERRED_SIZE,
+																														javax.swing.GroupLayout.DEFAULT_SIZE,
+																														javax.swing.GroupLayout.PREFERRED_SIZE)
+																												.addComponent(
+																														_jPanelReg1,
+																														javax.swing.GroupLayout.PREFERRED_SIZE,
+																														javax.swing.GroupLayout.DEFAULT_SIZE,
+																														javax.swing.GroupLayout.PREFERRED_SIZE)
+																												.addComponent(
+																														_jPanelReg2,
+																														javax.swing.GroupLayout.PREFERRED_SIZE,
+																														javax.swing.GroupLayout.DEFAULT_SIZE,
+																														javax.swing.GroupLayout.PREFERRED_SIZE)
+																												.addComponent(
+																														_jPanelReg3,
+																														javax.swing.GroupLayout.PREFERRED_SIZE,
+																														javax.swing.GroupLayout.DEFAULT_SIZE,
+																														javax.swing.GroupLayout.PREFERRED_SIZE))
+																								.addPreferredGap(
+																										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																								.addComponent(
+																										_jPanelBefZ1,
+																										javax.swing.GroupLayout.PREFERRED_SIZE,
+																										javax.swing.GroupLayout.DEFAULT_SIZE,
+																										javax.swing.GroupLayout.PREFERRED_SIZE))
+																				.addComponent(
+																						_jPanelBefZ,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						javax.swing.GroupLayout.DEFAULT_SIZE,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addComponent(
+																						_jPanelCountBef,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						javax.swing.GroupLayout.DEFAULT_SIZE,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addComponent(
+																						_jPanelExposition,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						javax.swing.GroupLayout.DEFAULT_SIZE,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addComponent(
+																						_jPanelBefReg,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						javax.swing.GroupLayout.DEFAULT_SIZE,
+																						javax.swing.GroupLayout.PREFERRED_SIZE))
+																.addGap(18, 18,
+																		18)
+																.addComponent(
+																		_jPanelMemory,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		Short.MAX_VALUE))
+												.addGroup(
+														javax.swing.GroupLayout.Alignment.TRAILING,
+														layout.createSequentialGroup()
+																.addComponent(
+																		_jBtnNextStep)
+																.addGap(29, 29,
+																		29)
+																.addComponent(
+																		_jBtnRun,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		84,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)))
+								.addContainerGap()));
+		layout.setVerticalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.TRAILING,
+																				false)
+																				.addComponent(
+																						_jPanelBefZ1,
+																						javax.swing.GroupLayout.Alignment.LEADING,
+																						0,
+																						javax.swing.GroupLayout.DEFAULT_SIZE,
+																						Short.MAX_VALUE)
+																				.addComponent(
+																						_jPanelAkku,
+																						javax.swing.GroupLayout.Alignment.LEADING,
+																						javax.swing.GroupLayout.DEFAULT_SIZE,
+																						javax.swing.GroupLayout.DEFAULT_SIZE,
+																						Short.MAX_VALUE))
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																.addComponent(
+																		_jPanelReg1,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																.addComponent(
+																		_jPanelReg2,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																.addComponent(
+																		_jPanelReg3,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																.addComponent(
+																		_jPanelBefZ,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																.addComponent(
+																		_jPanelBefReg,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+																		24,
+																		Short.MAX_VALUE)
+																.addComponent(
+																		_jPanelCountBef,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																.addComponent(
+																		_jPanelExposition,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addGap(29, 29,
+																		29))
+												.addGroup(
+														layout.createSequentialGroup()
+																.addComponent(
+																		_jPanelMemory,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+								.addComponent(_jSeparator,
+										javax.swing.GroupLayout.PREFERRED_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(
+										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.BASELINE)
+												.addComponent(_jBtnRun)
+												.addComponent(_jBtnNextStep))
+								.addContainerGap()));
 
-        _jPanelReg1.getAccessibleContext().setAccessibleName("Register1");
+		_jPanelReg1.getAccessibleContext().setAccessibleName("Register1");
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+		pack();
+	}// </editor-fold>//GEN-END:initComponents
 
-private void _jBtnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__jBtnRunActionPerformed
-    _controller.runSimulation();
-}//GEN-LAST:event__jBtnRunActionPerformed
+	private void _jBtnRunActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event__jBtnRunActionPerformed
+		_controller.runSimulation();
+	}// GEN-LAST:event__jBtnRunActionPerformed
 
-private void _jBtnNextStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__jBtnNextStepActionPerformed
-    _controller.nextStep();
-}//GEN-LAST:event__jBtnNextStepActionPerformed
+	private void _jBtnNextStepActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event__jBtnNextStepActionPerformed
+		_controller.nextStep();
+	}// GEN-LAST:event__jBtnNextStepActionPerformed
 
 	// /**
 	// * @param args the command line arguments
@@ -455,15 +649,16 @@ private void _jBtnNextStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 		 * /tutorial/uiswing/lookandfeel/plaf.html
 		 */
 		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
+					.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
 					javax.swing.UIManager.setLookAndFeel(info.getClassName());
 					break;
 				}
 			}
 		} catch (Exception inEx) {
-			java.util.logging.Logger.getLogger(MiniPowerPCGUI.class.getName()).log(java.util.logging.Level.SEVERE,
-					null, inEx);
+			java.util.logging.Logger.getLogger(MiniPowerPCGUI.class.getName())
+					.log(java.util.logging.Level.SEVERE, null, inEx);
 		}
 
 		// </editor-fold>
@@ -473,98 +668,118 @@ private void _jBtnNextStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 			public void run() {
 			}
 		});
-                
-                
+
 	}
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup _btnGroup;
-    private javax.swing.JButton _jBtnNextStep;
-    private javax.swing.JButton _jBtnRun;
-    private javax.swing.JMenuBar _jMenuBar;
-    private javax.swing.JMenu _jMenuEdit;
-    private javax.swing.JMenu _jMenuFile;
-    private javax.swing.JPanel _jPanelAkku;
-    private javax.swing.JPanel _jPanelBefReg;
-    private javax.swing.JPanel _jPanelBefZ;
-    private javax.swing.JPanel _jPanelBefZ1;
-    private javax.swing.JPanel _jPanelCountBef;
-    private javax.swing.JPanel _jPanelExposition;
-    private javax.swing.JPanel _jPanelMemory;
-    private javax.swing.JPanel _jPanelReg1;
-    private javax.swing.JPanel _jPanelReg2;
-    private javax.swing.JPanel _jPanelReg3;
-    private javax.swing.JRadioButton _jRadioBtnBin;
-    private javax.swing.JRadioButton _jRadioBtnDez;
-    private javax.swing.JScrollPane _jScrollPaneMem;
-    private javax.swing.JSeparator _jSeparator;
-    private javax.swing.JTable _jTblBefReg;
-    private javax.swing.JTable _jTblMem;
-    private javax.swing.JTextField _jTxtAkku;
-    private javax.swing.JTextField _jTxtBefZ;
-    private javax.swing.JTextField _jTxtCarryBit;
-    private javax.swing.JTextField _jTxtCountBef;
-    private javax.swing.JTextField _jTxtReg1;
-    private javax.swing.JTextField _jTxtReg2;
-    private javax.swing.JTextField _jTxtReg3;
-    private javax.swing.JScrollPane jScrollPane1;
-    // End of variables declaration//GEN-END:variables
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.ButtonGroup _btnGroup;
+	private javax.swing.JButton _jBtnNextStep;
+	private javax.swing.JButton _jBtnRun;
+	private javax.swing.JMenuBar _jMenuBar;
+	private javax.swing.JMenu _jMenuEdit;
+	private javax.swing.JMenu _jMenuFile;
+	private javax.swing.JPanel _jPanelAkku;
+	private javax.swing.JPanel _jPanelBefReg;
+	private javax.swing.JPanel _jPanelBefZ;
+	private javax.swing.JPanel _jPanelBefZ1;
+	private javax.swing.JPanel _jPanelCountBef;
+	private javax.swing.JPanel _jPanelExposition;
+	private javax.swing.JPanel _jPanelMemory;
+	private javax.swing.JPanel _jPanelReg1;
+	private javax.swing.JPanel _jPanelReg2;
+	private javax.swing.JPanel _jPanelReg3;
+	private javax.swing.JRadioButton _jRadioBtnBin;
+	private javax.swing.JRadioButton _jRadioBtnDez;
+	private javax.swing.JScrollPane _jScrollPaneMem;
+	private javax.swing.JSeparator _jSeparator;
+	private javax.swing.JTable _jTblBefReg;
+	private javax.swing.JTable _jTblMem;
+	private javax.swing.JTextField _jTxtAkku;
+	private javax.swing.JTextField _jTxtBefZ;
+	private javax.swing.JTextField _jTxtCarryBit;
+	private javax.swing.JTextField _jTxtCountBef;
+	private javax.swing.JTextField _jTxtReg1;
+	private javax.swing.JTextField _jTxtReg2;
+	private javax.swing.JTextField _jTxtReg3;
+	private javax.swing.JScrollPane jScrollPane1;
 
-    public void setAkku(String inMemoryEntry) {
-        _jTxtAkku.setText(inMemoryEntry);
-    }
+	// End of variables declaration//GEN-END:variables
 
-    public void setReg1(String inMemoryEntry) {
-        _jTxtReg1.setText(inMemoryEntry);
-    }
+	public void setAkku(String inMemoryEntry) {
+		_jTxtAkku.setText(inMemoryEntry);
+	}
 
-    public void setReg2(String inMemoryEntry) {
-        _jTxtReg2.setText(inMemoryEntry);
-    }
+	public void setReg1(String inMemoryEntry) {
+		_jTxtReg1.setText(inMemoryEntry);
+	}
 
-    public void setReg3(String inMemoryEntry) {
-        _jTxtReg3.setText(inMemoryEntry);
-    }
+	public void setReg2(String inMemoryEntry) {
+		_jTxtReg2.setText(inMemoryEntry);
+	}
 
-    public void setBefZ(String inMemoryEntry) {
-        _jTxtBefZ.setText(inMemoryEntry);
-    }
+	public void setReg3(String inMemoryEntry) {
+		_jTxtReg3.setText(inMemoryEntry);
+	}
 
-    public void setBefReg(String inMnemonic, String inValue) {
-        //TODO Implementation
-        
-        
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	public void setBefZ(String inMemoryEntry) {
+		_jTxtBefZ.setText(inMemoryEntry);
+	}
 
-    public void setCarryBit(String inMemoryEntry) {
-        _jTxtCarryBit.setText(inMemoryEntry);
-    }
+	public void setBefReg(String inMnemonic, String inValue) {
+		//Set Model
+		if(_jTblBefReg.getModel() != _BefRegTblModel){
+			_jTblBefReg.setModel(_BefRegTblModel);
+		}
+		
+		// remove existing rows
+		while (_BefRegTblModel.getRowCount() > 0) {
+			_BefRegTblModel.removeRow(0);
+		}
+		String[] row = new String[2];
+		row[0] = inMnemonic;
+		row[1] = inValue;
 
-    public boolean isBinaryExpositionSelected() {
-        return _jRadioBtnBin.isSelected();
-    }
+		_BefRegTblModel.addRow(row);
+	}
 
-    public void setCountBef(String inMemoryEntry) {
-        _jTxtCountBef.setText(inMemoryEntry);
-    }
+	public void setCarryBit(String inMemoryEntry) {
+		_jTxtCarryBit.setText(inMemoryEntry);
+	}
 
-    public void setMemoryEntries(MemoryEntry[] inMemory) {
-        _jTblMem.setModel(_MemTblModel);
-        
-        
-        // remove existing rows
-	while (_MemTblModel.getRowCount() > 0) {
-            _MemTblModel.removeRow(0);
-        }
-        String[] row = new String[3];
-        for (int i = 0; i < inMemory.length; i++){
-            if(inMemory[i] != null){
-                row[0] = String.valueOf(i);
-                row[1] = String.valueOf(inMemory[i].getBinaryString());
-                row[2] = String.valueOf(inMemory[i].getNumericValue());
-            }
-            _MemTblModel.addRow(row);
-        }
-   }
+	public boolean isBinaryExpositionSelected() {
+		return _jRadioBtnBin.isSelected();
+	}
+
+	public void setCountBef(String inMemoryEntry) {
+		_jTxtCountBef.setText(inMemoryEntry);
+	}
+
+	public void setMemoryEntries(MemoryEntry[] inMemory) {
+		if(_jTblMem.getModel() != _MemTblModel){
+			_jTblMem.setModel(_MemTblModel);
+		}
+		
+		//Column widths
+		_jTblMem.getColumnModel().getColumn(0).setPreferredWidth(10);
+		_jTblMem.getColumnModel().getColumn(1).setPreferredWidth(110);
+		
+		// remove existing rows
+		while (_MemTblModel.getRowCount() > 0) {
+			_MemTblModel.removeRow(0);
+		}
+		String[] row = new String[3];
+		for (int i = 0; i < inMemory.length; i++) {
+			if (inMemory[i] != null) {
+				row[0] = String.valueOf(i);
+				row[1] = String.valueOf(inMemory[i].getBinaryString());
+				if(i < 500){
+					row[2] = Instruction.parseInstruction(inMemory[i]).toString();
+				}else{
+					row[2] = String.valueOf(inMemory[i].getNumericValue());	
+				}
+				_MemTblModel.addRow(row);
+			}
+		}		
+	}
+
 }

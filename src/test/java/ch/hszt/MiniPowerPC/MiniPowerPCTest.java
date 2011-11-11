@@ -11,7 +11,7 @@ public class MiniPowerPCTest extends TestCase {
 		
 	@Test
 	public void testLWDDSWDD(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 	
 		int i1 = 100;
 		
@@ -27,7 +27,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testADD(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		
 		int i1 = 100;
 		int i2 = 150;
@@ -48,7 +48,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testADDD(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		
 		int i1 = 100;
 		int i2 = 150;
@@ -69,7 +69,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testINC(){
-		m = new MemoryEntry[1023];	
+		m = new MemoryEntry[1024];	
 		int i1 = 1337;
 		
 		m[100] = new MemoryEntry("0100000111110100".toCharArray()); //LWDD 0, 500
@@ -85,7 +85,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testDEC(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 1337;
 		
 		m[100] = new MemoryEntry("0100000111110100".toCharArray()); //LWDD 0, 500
@@ -101,7 +101,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testSRA(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = -128;
 		
 		m[100] = new MemoryEntry("0100000111110100".toCharArray()); //LWDD 0, 500
@@ -119,7 +119,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testSLA(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = -128;
 		
 		m[100] = new MemoryEntry("0100000111110100".toCharArray()); //LWDD 0, 500
@@ -135,7 +135,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testSRL(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = -1;
 		
 		m[100] = new MemoryEntry("0100000111110100".toCharArray()); //LWDD 0, 500
@@ -151,7 +151,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testSLL(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = -1;
 		
 		m[100] = new MemoryEntry("0100000111110100".toCharArray()); //LWDD 0, 500
@@ -167,7 +167,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testAND(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 256;
 		int i2 = 257;
 		
@@ -187,7 +187,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testOR(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 256;
 		int i2 = 257;
 		
@@ -207,7 +207,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testNOT(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = -1;
 		
 		m[100] = new MemoryEntry("0100000111110100".toCharArray()); //LWDD 0, 500
@@ -223,7 +223,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testB(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -253,7 +253,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testBZdoJump(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -279,7 +279,7 @@ public class MiniPowerPCTest extends TestCase {
 	}
 	@Test
 	public void testBZdontJump(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -307,7 +307,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testBNZdoJump(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -336,7 +336,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testBNZdontJump(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -365,7 +365,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testBCdontJump(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -396,7 +396,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testBCdoJump(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -427,7 +427,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testBD(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -453,7 +453,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testBZDdoJump(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -479,7 +479,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testBZDdontJump(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -505,7 +505,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testBNZDdoJump(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -532,7 +532,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testBZNDdontJump(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -559,7 +559,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testBCDdoJump(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		
@@ -587,7 +587,7 @@ public class MiniPowerPCTest extends TestCase {
 	
 	@Test
 	public void testBCDdontJump(){
-		m = new MemoryEntry[1023];
+		m = new MemoryEntry[1024];
 		int i1 = 100;
 		int i2 = 150;
 		

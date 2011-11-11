@@ -15,6 +15,7 @@ public enum InstructionSet{
 	AND,
 	OR,
 	NOT,
+	END,
 	BZ,
 	BNZ,
 	BC,
