@@ -4,12 +4,290 @@
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="_btnGroup">
     </Component>
+    <Container class="javax.swing.JDialog" name="_jDialogLoadPrg">
+      <Properties>
+        <Property name="title" type="java.lang.String" value="Load Programm"/>
+        <Property name="resizable" type="boolean" value="false"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="_jFileChooser" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="_jFileChooser" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JFileChooser" name="_jFileChooser">
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JDialog" name="_jDialogMul">
+      <Properties>
+        <Property name="title" type="java.lang.String" value="Multiplication"/>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[330, 315]"/>
+        </Property>
+        <Property name="resizable" type="boolean" value="false"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="_jPanelOP1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="_jPanelOP2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace pref="147" max="32767" attributes="0"/>
+                  <Component id="_jLblExpResult" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="_jLblResult" min="-2" pref="84" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace pref="162" max="32767" attributes="0"/>
+                  <Component id="_jBtnCancel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="_jBtnSet" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                  <Component id="_jPanelOP1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="_jPanelOP2" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="_jLblExpResult" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="_jLblResult" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="_jBtnSet" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="_jBtnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="_jPanelOP1">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                <TitledBorder title="First Operator"/>
+              </Border>
+            </Property>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="_jTxtDMemPos1" min="-2" pref="52" max="-2" attributes="1"/>
+                          <Component id="_jLblMemPos1" alignment="0" min="-2" max="-2" attributes="1"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="_jLblOp1" min="-2" max="-2" attributes="0"/>
+                          <Component id="_jTxtDOP1" min="-2" pref="77" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="_jLblOp1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="_jLblMemPos1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="_jTxtDMemPos1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="_jTxtDOP1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="_jLblMemPos1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Starting Memory Position:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="_jTxtDMemPos1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="500"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="_jLblOp1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Operator:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="_jTxtDOP1">
+              <Properties>
+                <Property name="columns" type="int" value="20"/>
+              </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="_jTxtDOP1KeyPressed"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="_jPanelOP2">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                <TitledBorder title="Second Operator"/>
+              </Border>
+            </Property>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="_jLblMemPos2" alignment="0" min="-2" max="-2" attributes="1"/>
+                          <Component id="_jTxtDMemPos2" alignment="0" min="-2" pref="52" max="-2" attributes="1"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="_jLblOp2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="_jTxtDOP2" alignment="0" min="-2" pref="77" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="_jLblMemPos2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="_jLblOp2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="_jTxtDMemPos2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="_jTxtDOP2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="_jLblMemPos2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Starting Memory Position:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="_jTxtDMemPos2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="502"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="_jLblOp2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Operator:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="_jTxtDOP2">
+              <Properties>
+                <Property name="columns" type="int" value="20"/>
+              </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="_jTxtDOP2KeyPressed"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JButton" name="_jBtnSet">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Set"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_jBtnSetActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="_jBtnCancel">
+          <Properties>
+            <Property name="mnemonic" type="int" value="1"/>
+            <Property name="text" type="java.lang.String" value="Cancel"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_jBtnCancelActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="_jLblExpResult">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Result:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="_jLblResult">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
     <Menu class="javax.swing.JMenuBar" name="_jMenuBar">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="_jMenuFile">
           <Properties>
             <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="_jMenuItemLoadPrg">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Load Programm"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_jMenuItemLoadPrgActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="_jMenuItemMul">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Multiplication"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_jMenuItemMulActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="_jMenuEdit">
           <Properties>
@@ -21,6 +299,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" value="MiniPower PC"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="_jMenuBar"/>
@@ -44,7 +323,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="_jSeparator" alignment="0" pref="679" max="32767" attributes="0"/>
+                  <Component id="_jSeparator" alignment="0" pref="736" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -60,10 +339,10 @@
                           <Component id="_jPanelBefZ" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="_jPanelCountBef" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="_jPanelExposition" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="_jPanelBefReg" min="-2" max="-2" attributes="0"/>
+                          <Component id="_jPanelBefReg" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="_jPanelMemory" max="32767" attributes="0"/>
+                      <Component id="_jPanelMemory" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="_jBtnNextStep" min="-2" max="-2" attributes="1"/>
@@ -285,7 +564,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="_jScrollPaneMem" pref="352" max="32767" attributes="0"/>
+                  <Component id="_jScrollPaneMem" pref="406" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -365,7 +644,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jScrollPane1" alignment="0" pref="235" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" alignment="0" pref="268" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
