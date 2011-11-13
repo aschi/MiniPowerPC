@@ -2,7 +2,7 @@ package ch.hszt.MiniPowerPC;
 
 import ch.hszt.MiniPowerPC.helper.Helper;
 
-public class MemoryEntry {
+public class MemoryEntry implements Cloneable{
 	private char[] binaryString = new char[15];
 	
 	/**
@@ -11,6 +11,13 @@ public class MemoryEntry {
 	 */
 	public char[] getBinaryString(){
 		return binaryString;
+	}
+	
+	/**
+	 * Clone object
+	 */
+	public MemoryEntry clone(){
+		return new MemoryEntry(binaryString.clone());
 	}
 	
 	/**

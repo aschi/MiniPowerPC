@@ -147,7 +147,7 @@ public class MiniPowerPC {
 		MemoryEntry result = MemoryEntry.parseMemoryEntry(0);
 		boolean c = false;
 		
-		for(int i = m1.getBinaryString().length-1;i >= 0;i--){
+		for(int i = m1.getBinaryString().length-1;i > 0;i--){
 			if((m1.getBinaryString()[i] == m2.getBinaryString()[i]) &&  (m2.getBinaryString()[i] == '1')){
 				if(c){
 					result.getBinaryString()[i] = '1';
@@ -179,6 +179,12 @@ public class MiniPowerPC {
 			carryFlag = 0;
 		}
 		
+		if(m1.getNumericValue() + m2.getNumericValue() >= 0){
+			result.getBinaryString()[0] = '0';
+		}else{
+			result.getBinaryString()[0] = '1';
+		}
+		
 		return result;
 	}
 	
@@ -189,7 +195,7 @@ public class MiniPowerPC {
 	 *            Registernummer 0-2
 	 */
 	public void add(short rnr) {
-		register[0] = binaryAddition(register[0], register[rnr]);
+		register[0] = binaryAddition(register[0].clone(), register[rnr].clone());
 	}
 
 	/**
@@ -199,21 +205,21 @@ public class MiniPowerPC {
 	 *            Zahl die hinzugefügt wird
 	 */
 	public void addd(int no) {
-		register[0] = binaryAddition(register[0], MemoryEntry.parseMemoryEntry(no));
+		register[0] = binaryAddition(register[0].clone(), MemoryEntry.parseMemoryEntry(no));
 	}
 
 	/**
 	 * Akku++;
 	 */
 	public void inc() {
-		register[0] = binaryAddition(register[0], MemoryEntry.parseMemoryEntry(1));
+		register[0] = binaryAddition(register[0].clone(), MemoryEntry.parseMemoryEntry(1));
 	}
 
 	/**
 	 * Akku--;
 	 */
 	public void dec() {
-		register[0] = binaryAddition(register[0], MemoryEntry.parseMemoryEntry(-1));
+		register[0] = binaryAddition(register[0].clone(), MemoryEntry.parseMemoryEntry(-1));
 	}
 
 	/**
@@ -225,7 +231,7 @@ public class MiniPowerPC {
 	 *            memory address
 	 */
 	public void lwdd(short rnr, short adr) {
-		register[rnr] = memory[adr];
+		register[rnr] = memory[adr].clone();
 	}
 
 	/**
@@ -237,14 +243,14 @@ public class MiniPowerPC {
 	 *            speicheradresse
 	 */
 	public void swdd(short rnr, short adr) {
-		memory[adr] = register[rnr];
+		memory[adr] = register[rnr].clone();
 	}
 
 	/**
 	 * Arithmetical shift right
 	 */
 	public void sra() {
-		MemoryEntry m = register[0];
+		MemoryEntry m = register[0].clone();
 		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[m
 				.getBinaryString().length - 1]));
 
@@ -262,7 +268,7 @@ public class MiniPowerPC {
 	 * Arithmetical shift left
 	 */
 	public void sla() {
-		MemoryEntry m = register[0];
+		MemoryEntry m = register[0].clone();
 		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[1]));
 
 		char[] co = m.getBinaryString();
@@ -283,7 +289,7 @@ public class MiniPowerPC {
 	 * Logical shift right
 	 */
 	public void srl() {
-		MemoryEntry m = register[0];
+		MemoryEntry m = register[0].clone();
 		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[m
 				.getBinaryString().length - 1]));
 
@@ -302,7 +308,7 @@ public class MiniPowerPC {
 	 * Logical shift left
 	 */
 	public void sll() {
-		MemoryEntry m = register[0];
+		MemoryEntry m = register[0].clone();
 		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[0]));
 
 		char[] ca = m.getBinaryString();
@@ -321,8 +327,8 @@ public class MiniPowerPC {
 	 * @param rnr
 	 */
 	public void and(short rnr) {
-		MemoryEntry ma = register[0];
-		MemoryEntry mr = register[rnr];
+		MemoryEntry ma = register[0].clone();
+		MemoryEntry mr = register[rnr].clone();
 
 		char[] caa = ma.getBinaryString();
 		char[] car = mr.getBinaryString();
@@ -343,8 +349,8 @@ public class MiniPowerPC {
 	 * @param rnr
 	 */
 	public void or(short rnr) {
-		MemoryEntry ma = register[0];
-		MemoryEntry mr = register[rnr];
+		MemoryEntry ma = register[0].clone();
+		MemoryEntry mr = register[rnr].clone();
 
 		char[] caa = ma.getBinaryString();
 		char[] car = mr.getBinaryString();
@@ -363,7 +369,7 @@ public class MiniPowerPC {
 	 * Binary NOT
 	 */
 	public void not() {
-		MemoryEntry m = register[0];
+		MemoryEntry m = register[0].clone();
 		char[] ca = m.getBinaryString();
 		for (int i = 0; i < ca.length; i++) {
 			ca[i] = (ca[i] == '1' ? '0' : '1');

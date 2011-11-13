@@ -22,7 +22,7 @@ public class Controller implements ControllerIfc {
 	public Controller(MemoryEntry[] memory, int startPosition) {
 		this(memory);
 		emu.setInstructionCounter(startPosition);
-		updateGUI();
+		updateGUI(); 
 	}
 
 	/**

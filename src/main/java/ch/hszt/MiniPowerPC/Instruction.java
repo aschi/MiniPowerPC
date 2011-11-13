@@ -195,7 +195,7 @@ public class Instruction {
 		}
 
 		// NOT
-		if (b.substring(0, 8).equals("00000001")) {
+		if (b.substring(0, 9).equals("000000001")) {
 			instruction = InstructionSet.NOT;
 			rnr = -1;
 			memoryAddress = -1;
