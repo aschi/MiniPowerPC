@@ -263,8 +263,7 @@ public class MiniPowerPC {
 	 */
 	public void sla() {
 		MemoryEntry m = register[0];
-		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[m
-				.getBinaryString().length - 1]));
+		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[1]));
 
 		char[] co = m.getBinaryString();
 		char[] cn = new char[16];
