@@ -112,8 +112,6 @@ public class MiniPowerPCTest extends TestCase {
 		instance = new MiniPowerPC(m);
 		instance.run();
 		
-		System.out.println("SRA: " + m[504].getNumericValue());
-		
 		assertTrue(m[504].getNumericValue() == (i1/2));
 	}
 	
@@ -211,7 +209,7 @@ public class MiniPowerPCTest extends TestCase {
 		int i1 = -1;
 		
 		m[100] = new MemoryEntry("0100000111110100".toCharArray()); //LWDD 0, 500
- 		m[102] = new MemoryEntry("0000000000000000".toCharArray()); //NOT
+ 		m[102] = new MemoryEntry("0000000100000000".toCharArray()); //NOT
  		m[104] = new MemoryEntry("0110000111111000".toCharArray()); //SWDD 0, 504
 		m[500] = MemoryEntry.parseMemoryEntry(i1);
 		
@@ -611,4 +609,6 @@ public class MiniPowerPCTest extends TestCase {
 		
 		assertTrue(m[504] == null);
 	}
+	
+	
 }

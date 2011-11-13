@@ -1,6 +1,5 @@
 package ch.hszt.MiniPowerPC;
 
-import ch.hszt.MiniPowerPC.helper.Helper;
 
 public class MiniPowerPC {
 	public final static int START_OF_INSTR_REG = 100;
@@ -8,13 +7,19 @@ public class MiniPowerPC {
 	
 	private short carryFlag = 0;
 	private MemoryEntry[] memory;
-	private int[] register = new int[4]; // register[0] = akku, 1-3 register
+	private MemoryEntry[] register = new MemoryEntry[4]; // register[0] = akku, 1-3 register
 	private int instructionCounter = START_OF_INSTR_REG;
 	private long stepCounter;
 	private Instruction instructionReg;
 
 	public MiniPowerPC(MemoryEntry[] memory) {
 		this.memory = memory;
+		
+		//init memory
+		for(int i = 0;i < register.length;i++){
+			clr((short)i);
+		}
+		
 		getNextInstruction();
 	}
 
@@ -28,18 +33,18 @@ public class MiniPowerPC {
 	}
 
 	public void setAkku(int i) {
-		register[0] = i;
+		register[0] = MemoryEntry.parseMemoryEntry(i);
 	}
 
 	public Instruction getInstructionReg(){
 		return instructionReg;
 	}
 	
-	public int getAkku(){
+	public MemoryEntry getAkku(){
 		return register[0];
 	}
 	
-	public int[] getRegister(){
+	public MemoryEntry[] getRegister(){
 		return register;
 	}
 
@@ -113,7 +118,7 @@ public class MiniPowerPC {
 		instructionCounter = START_OF_INSTR_REG;
 		stepCounter = 0;
 		for(int i = 0;i < register.length;i++){
-			register[i] = 0;
+			clr((short)i);
 		}
 		carryFlag = 0;
 		
@@ -129,9 +134,54 @@ public class MiniPowerPC {
 	 *            Registernummer (0 - 3)
 	 */
 	public void clr(short rnr) {
-		register[rnr] = 0;
+		register[rnr] = MemoryEntry.parseMemoryEntry(0);
 	}
 
+	/**
+	 * Binary additon of 2 Memory Entries
+	 * @param m1 Memory Entry 1
+	 * @param m2 Memory Entry 2
+	 * @return resulting Memory Entry
+	 */
+	public MemoryEntry binaryAddition(MemoryEntry m1, MemoryEntry m2){
+		MemoryEntry result = MemoryEntry.parseMemoryEntry(0);
+		boolean c = false;
+		
+		for(int i = m1.getBinaryString().length-1;i >= 0;i--){
+			if((m1.getBinaryString()[i] == m2.getBinaryString()[i]) &&  (m2.getBinaryString()[i] == '1')){
+				if(c){
+					result.getBinaryString()[i] = '1';
+				}else{
+					result.getBinaryString()[i] = '0';
+				}
+				c = true;
+			}else if((m1.getBinaryString()[i] == m2.getBinaryString()[i]) &&  (m2.getBinaryString()[i] == '0')){
+				if(c){
+					result.getBinaryString()[i] = '1';
+				}else{
+					result.getBinaryString()[i] = '0';
+				}
+				c = false;
+			}else if(m1.getBinaryString()[i] != m2.getBinaryString()[i]){
+				if(c){
+					result.getBinaryString()[i] = '0';
+					c = true;
+				}else{
+					result.getBinaryString()[i] = '1';
+					c = false;
+				}
+			}
+		}
+		
+		if(c){
+			carryFlag = 1;
+		}else{
+			carryFlag = 0;
+		}
+		
+		return result;
+	}
+	
 	/**
 	 * Akku := Akku + Register rnr
 	 * 
@@ -139,7 +189,7 @@ public class MiniPowerPC {
 	 *            Registernummer 0-2
 	 */
 	public void add(short rnr) {
-		register[0] += register[rnr];
+		register[0] = binaryAddition(register[0], register[rnr]);
 	}
 
 	/**
@@ -149,21 +199,21 @@ public class MiniPowerPC {
 	 *            Zahl die hinzugefügt wird
 	 */
 	public void addd(int no) {
-		register[0] += no;
+		register[0] = binaryAddition(register[0], MemoryEntry.parseMemoryEntry(no));
 	}
 
 	/**
 	 * Akku++;
 	 */
 	public void inc() {
-		register[0]++;
+		register[0] = binaryAddition(register[0], MemoryEntry.parseMemoryEntry(1));
 	}
 
 	/**
 	 * Akku--;
 	 */
 	public void dec() {
-		register[0]--;
+		register[0] = binaryAddition(register[0], MemoryEntry.parseMemoryEntry(-1));
 	}
 
 	/**
@@ -175,7 +225,7 @@ public class MiniPowerPC {
 	 *            memory address
 	 */
 	public void lwdd(short rnr, short adr) {
-		register[rnr] = memory[adr].getNumericValue();
+		register[rnr] = memory[adr];
 	}
 
 	/**
@@ -187,14 +237,14 @@ public class MiniPowerPC {
 	 *            speicheradresse
 	 */
 	public void swdd(short rnr, short adr) {
-		memory[adr] = MemoryEntry.parseMemoryEntry(register[rnr]);
+		memory[adr] = register[rnr];
 	}
 
 	/**
 	 * Arithmetical shift right
 	 */
 	public void sra() {
-		MemoryEntry m = MemoryEntry.parseMemoryEntry(register[0]);
+		MemoryEntry m = register[0];
 		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[m
 				.getBinaryString().length - 1]));
 
@@ -205,14 +255,14 @@ public class MiniPowerPC {
 			ca[i] = ca[i - 1];
 		}
 
-		register[0] = Helper.binaryCharArrayToInt(ca, true);
+		register[0] = new MemoryEntry(ca);
 	}
 
 	/**
 	 * Arithmetical shift left
 	 */
 	public void sla() {
-		MemoryEntry m = MemoryEntry.parseMemoryEntry(register[0]);
+		MemoryEntry m = register[0];
 		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[m
 				.getBinaryString().length - 1]));
 
@@ -227,14 +277,14 @@ public class MiniPowerPC {
 		// add a 0 to fill the gap
 		cn[15] = '0';
 
-		register[0] = Helper.binaryCharArrayToInt(cn, true);
+		register[0] = new MemoryEntry(cn);
 	}
 
 	/**
 	 * Logical shift right
 	 */
 	public void srl() {
-		MemoryEntry m = MemoryEntry.parseMemoryEntry(register[0]);
+		MemoryEntry m = register[0];
 		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[m
 				.getBinaryString().length - 1]));
 
@@ -246,14 +296,14 @@ public class MiniPowerPC {
 		}
 		// add a 0 to fill the gap
 		ca[0] = '0';
-		register[0] = Helper.binaryCharArrayToInt(ca, true);
+		register[0] = new MemoryEntry(ca);
 	}
 
 	/**
 	 * Logical shift left
 	 */
 	public void sll() {
-		MemoryEntry m = MemoryEntry.parseMemoryEntry(register[0]);
+		MemoryEntry m = register[0];
 		carryFlag = Short.parseShort(String.valueOf(m.getBinaryString()[0]));
 
 		char[] ca = m.getBinaryString();
@@ -263,7 +313,7 @@ public class MiniPowerPC {
 		}
 		// add a 0 to fill the gap
 		ca[ca.length - 1] = '0';
-		register[0] = Helper.binaryCharArrayToInt(ca, true);
+		register[0] = new MemoryEntry(ca);
 	}
 
 	/**
@@ -272,8 +322,8 @@ public class MiniPowerPC {
 	 * @param rnr
 	 */
 	public void and(short rnr) {
-		MemoryEntry ma = MemoryEntry.parseMemoryEntry(register[0]);
-		MemoryEntry mr = MemoryEntry.parseMemoryEntry(register[rnr]);
+		MemoryEntry ma = register[0];
+		MemoryEntry mr = register[rnr];
 
 		char[] caa = ma.getBinaryString();
 		char[] car = mr.getBinaryString();
@@ -285,7 +335,7 @@ public class MiniPowerPC {
 				caa[i] = '0';
 			}
 		}
-		register[0] = Helper.binaryCharArrayToInt(caa, true);
+		register[0] = new MemoryEntry(caa);
 	}
 
 	/**
@@ -294,8 +344,8 @@ public class MiniPowerPC {
 	 * @param rnr
 	 */
 	public void or(short rnr) {
-		MemoryEntry ma = MemoryEntry.parseMemoryEntry(register[0]);
-		MemoryEntry mr = MemoryEntry.parseMemoryEntry(register[rnr]);
+		MemoryEntry ma = register[0];
+		MemoryEntry mr = register[rnr];
 
 		char[] caa = ma.getBinaryString();
 		char[] car = mr.getBinaryString();
@@ -307,19 +357,19 @@ public class MiniPowerPC {
 				caa[i] = '0';
 			}
 		}
-		register[0] = Helper.binaryCharArrayToInt(caa, true);
+		register[0] = new MemoryEntry(caa);
 	}
 
 	/**
 	 * Binary NOT
 	 */
 	public void not() {
-		MemoryEntry m = MemoryEntry.parseMemoryEntry(register[0]);
+		MemoryEntry m = register[0];
 		char[] ca = m.getBinaryString();
 		for (int i = 0; i < ca.length; i++) {
 			ca[i] = (ca[i] == '1' ? '0' : '1');
 		}
-		register[0] = Helper.binaryCharArrayToInt(ca, true);
+		register[0] = new MemoryEntry(ca);
 	}
 
 	/**
@@ -328,7 +378,7 @@ public class MiniPowerPC {
 	 * @param rnr
 	 */
 	public void bz(short rnr) {
-		if (register[0] == 0) {
+		if (register[0].getNumericValue() == 0) {
 			b(rnr);
 		}
 	}
@@ -339,7 +389,7 @@ public class MiniPowerPC {
 	 * @param rnr
 	 */
 	public void bnz(short rnr) {
-		if (register[0] != 0) {
+		if (register[0].getNumericValue() != 0) {
 			b(rnr);
 		}
 	}
@@ -362,7 +412,7 @@ public class MiniPowerPC {
 	 * @param rnr
 	 */
 	public void b(short rnr) {
-		instructionCounter = (register[rnr] - 1); // -1 because it will be
+		instructionCounter = (register[rnr].getNumericValue() - 1); // -1 because it will be
 													// incremented immediately
 	}
 
@@ -372,7 +422,7 @@ public class MiniPowerPC {
 	 * @param adr
 	 */
 	public void bzd(short adr) {
-		if (register[0] == 0) {
+		if (register[0].getNumericValue() == 0) {
 			bd(adr);
 		}
 	}
@@ -383,7 +433,7 @@ public class MiniPowerPC {
 	 * @param rnr
 	 */
 	public void bnzd(short adr) {
-		if (register[0] != 0) {
+		if (register[0].getNumericValue() != 0) {
 			bd(adr);
 		}
 	}

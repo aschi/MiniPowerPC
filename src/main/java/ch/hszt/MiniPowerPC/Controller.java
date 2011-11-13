@@ -62,15 +62,15 @@ public class Controller implements ControllerIfc {
 	}
 
 	public void updateGUI() {
-		gui.setAkku(String.valueOf(emu.getAkku()));
+		gui.setAkku(String.valueOf(emu.getAkku().getBinaryString()));
 		if (emu.getInstructionReg() != null) {
 			gui.setBefReg(emu.getInstructionReg().toString(), emu
 					.getInstructionReg().getBinaryString());
 		}
 		gui.setBefZ(String.valueOf(emu.getInstructionCounter()));
-		gui.setReg1(String.valueOf(emu.getRegister()[1]));
-		gui.setReg2(String.valueOf(emu.getRegister()[2]));
-		gui.setReg3(String.valueOf(emu.getRegister()[3]));
+		gui.setReg1(String.valueOf(emu.getRegister()[1].getBinaryString()));
+		gui.setReg2(String.valueOf(emu.getRegister()[2].getBinaryString()));
+		gui.setReg3(String.valueOf(emu.getRegister()[3].getBinaryString()));
 		gui.setCarryBit(String.valueOf(emu.getCarryFlag()));
 		gui.setCountBef(String.valueOf(emu.getStepCounter()));
 		gui.setMemoryEntries(emu.getMemory());

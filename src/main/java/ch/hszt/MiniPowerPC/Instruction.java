@@ -310,8 +310,8 @@ public class Instruction {
 	}
 
 	public void run(MiniPowerPC emu) {
-		System.out.println(this.instruction + ";rnr:" + this.rnr
-				+ ";memoryaddr:" + this.memoryAddress + ";no:" + this.number);
+		//System.out.println(this.instruction + ";rnr:" + this.rnr
+		//		+ ";memoryaddr:" + this.memoryAddress + ";no:" + this.number);
 
 		switch (instruction) {
 		case CLR:
