@@ -36,10 +36,13 @@ public class Controller implements ControllerIfc {
 		int i2 = 150;
 
 		// Add example
-		m[100] = new MemoryEntry("0100000111110100".toCharArray()); // LWDD 0,500
-		m[102] = new MemoryEntry("0100010111110110".toCharArray()); // LWDD 1,502
+		m[100] = new MemoryEntry("0100000111110100".toCharArray()); // LWDD
+																	// 0,500
+		m[102] = new MemoryEntry("0100010111110110".toCharArray()); // LWDD
+																	// 1,502
 		m[104] = new MemoryEntry("0000011110000000".toCharArray()); // ADD 1
-		m[106] = new MemoryEntry("0110000111111000".toCharArray()); // SWDD 0,504
+		m[106] = new MemoryEntry("0110000111111000".toCharArray()); // SWDD
+																	// 0,504
 		m[108] = new MemoryEntry("0010000001111010".toCharArray()); // BD 122
 
 		// jump to 100
@@ -48,26 +51,21 @@ public class Controller implements ControllerIfc {
 
 		m[500] = MemoryEntry.parseMemoryEntry(i1);
 		m[502] = MemoryEntry.parseMemoryEntry(i2);
-		
+
 		Controller c = new Controller(m, 120);
 		/*
-		for (int i = 100; i < 1024; i++) {
-			if (c.getEmu().getMemory()[i] != null) {
-				System.out.println(i
-						+ " - "
-						+ String.valueOf(c.getEmu().getMemory()[i]
-								.getBinaryString()));
-			}
-		}
-		*/
-		
+		 * for (int i = 100; i < 1024; i++) { if (c.getEmu().getMemory()[i] !=
+		 * null) { System.out.println(i + " - " +
+		 * String.valueOf(c.getEmu().getMemory()[i] .getBinaryString())); } }
+		 */
+
 	}
 
 	public void updateGUI() {
 		gui.setAkku(String.valueOf(emu.getAkku()));
 		if (emu.getInstructionReg() != null) {
-			gui.setBefReg(emu.getInstructionReg().toString(),
-					emu.getInstructionReg().getBinaryString());
+			gui.setBefReg(emu.getInstructionReg().toString(), emu
+					.getInstructionReg().getBinaryString());
 		}
 		gui.setBefZ(String.valueOf(emu.getInstructionCounter()));
 		gui.setReg1(String.valueOf(emu.getRegister()[1]));
@@ -90,22 +88,40 @@ public class Controller implements ControllerIfc {
 		updateGUI();
 	}
 
-    public void loadProgramm(File inProgramm) throws IllegalArgumentException {
-    	MemoryEntry[] m = MemoryParser.parseTextFile(inProgramm); 
-    	if(m != null){
-    		emu.setMemory(m);
-    		emu.reset();
-    		updateGUI();
-    	}
-    }
+	public void loadProgramm(File inProgramm) throws IllegalArgumentException {
+		MemoryEntry[] m = MemoryParser.parseTextFile(inProgramm);
+		if (m != null) {
+			emu.setMemory(m);
+			emu.reset();
+			updateGUI();
+		}
+	}
 
-    
-    
-    public void setMultiplicationOP(int inMemoryPos1, int inOP1, int inMemoryPos2, int inOP2) {
-        //TODO write input Operators to the corresponding Memory Position
-        
-       //       m[inMemoryPos1] = MemoryEntry.parseMemoryEntry(inOP1);
-       //       m[inMemoryPos2] = MemoryEntry.parseMemoryEntry(inOP2);
-    }
+	public void setMultiplicationOP(int inMemoryPos1, int inOP1,
+			int inMemoryPos2, int inOP2) {
+		// TODO write input Operators to the corresponding Memory Position
+		
+		/*
+		//Variante 1: Manuell Programm im Quelltext setzen
+		MemoryEntry[] m = new MemoryEntry[1024];
+
+		m[100] = new MemoryEntry("0100000111110100".toCharArray()); // LWDD 0,500
+		m[102] = new MemoryEntry("0100010111110110".toCharArray()); // LWDD 1,502
+		m[104] = new MemoryEntry("0000011110000000".toCharArray()); // ADD 1
+		m[106] = new MemoryEntry("0110000111111000".toCharArray()); // SWDD 0,504
+		
+		m[inMemoryPos1] = MemoryEntry.parseMemoryEntry(inOP1);
+		m[inMemoryPos2] = MemoryEntry.parseMemoryEntry(inOP2);
+		
+		//Variante 2: Programm aus Textfile einlesen & Operanden aus GUI verwenden.
+		MemoryEntry[] m = MemoryParser.parseTextFile(new File("test.txt"));
+		if(m != null){
+			m[inMemoryPos1] = MemoryEntry.parseMemoryEntry(inOP1);
+			m[inMemoryPos2] = MemoryEntry.parseMemoryEntry(inOP2);
+		}
+		
+		*/
+		
+	}
 
 }
