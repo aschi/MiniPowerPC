@@ -99,29 +99,17 @@ public class Controller implements ControllerIfc {
 
 	public void setMultiplicationOP(int inMemoryPos1, int inOP1,
 			int inMemoryPos2, int inOP2) {
-		// TODO write input Operators to the corresponding Memory Position
-		
-		/*
-		//Variante 1: Manuell Programm im Quelltext setzen
-		MemoryEntry[] m = new MemoryEntry[1024];
-
-		m[100] = new MemoryEntry("0100000111110100".toCharArray()); // LWDD 0,500
-		m[102] = new MemoryEntry("0100010111110110".toCharArray()); // LWDD 1,502
-		m[104] = new MemoryEntry("0000011110000000".toCharArray()); // ADD 1
-		m[106] = new MemoryEntry("0110000111111000".toCharArray()); // SWDD 0,504
-		
-		m[inMemoryPos1] = MemoryEntry.parseMemoryEntry(inOP1);
-		m[inMemoryPos2] = MemoryEntry.parseMemoryEntry(inOP2);
-		
-		//Variante 2: Programm aus Textfile einlesen & Operanden aus GUI verwenden.
-		MemoryEntry[] m = MemoryParser.parseTextFile(new File("test.txt"));
+		MemoryEntry[] m = MemoryParser.parseTextFile(new File("multiplikationsProgramm.txt"));
 		if(m != null){
 			m[inMemoryPos1] = MemoryEntry.parseMemoryEntry(inOP1);
 			m[inMemoryPos2] = MemoryEntry.parseMemoryEntry(inOP2);
+			
+			emu.setMemory(m);
+			emu.reset();
+			updateGUI();
+		}else{
+			System.out.println("Programm nicht gefunden!");
 		}
-		
-		*/
-		
 	}
 
 }
