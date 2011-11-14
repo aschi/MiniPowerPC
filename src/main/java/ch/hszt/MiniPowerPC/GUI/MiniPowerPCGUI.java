@@ -10,16 +10,17 @@
  */
 package ch.hszt.MiniPowerPC.GUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 import ch.hszt.MiniPowerPC.ControllerIfc;
 import ch.hszt.MiniPowerPC.Instruction;
 import ch.hszt.MiniPowerPC.MemoryEntry;
 import ch.hszt.MiniPowerPC.MiniPowerPC;
-
-import java.io.File;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  * 
@@ -496,9 +497,21 @@ public class MiniPowerPCGUI extends javax.swing.JFrame implements
         _btnGroup.add(_jRadioBtnBin);
         _jRadioBtnBin.setSelected(true);
         _jRadioBtnBin.setText("Binärdarstellung");
+        _jRadioBtnBin.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				_controller.updateGUI();
+			}        	
+        });
 
         _btnGroup.add(_jRadioBtnDez);
         _jRadioBtnDez.setText("Dezimaldarstellung");
+        _jRadioBtnDez.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				_controller.updateGUI();
+			}        	
+        });
 
         javax.swing.GroupLayout _jPanelExpositionLayout = new javax.swing.GroupLayout(_jPanelExposition);
         _jPanelExposition.setLayout(_jPanelExpositionLayout);
@@ -689,8 +702,7 @@ private void _jTxtDOP2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
 }//GEN-LAST:event__jTxtDOP2KeyPressed
 
 private void _jBtnSlowModusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__jBtnSlowModusActionPerformed
-    _controller.nextStep();
-    //TODO Schleife, die alle Schritte durchläuft, auf dem controller nextStep() aufruft und dann eine gewisse Zeit wartet bis der nächste Schritt aufgerufen wird
+    _controller.runSimulationSlow();
 }//GEN-LAST:event__jBtnSlowModusActionPerformed
 
 	private void _jBtnRunActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event__jBtnRunActionPerformed
@@ -919,5 +931,15 @@ private void _jBtnSlowModusActionPerformed(java.awt.event.ActionEvent evt) {//GE
         }
         public int getMulDialogOp2(){
             return Integer.parseInt(_jTxtDOP2.getText());
+        }
+        
+        public String getBinDec(){
+        	if(_jRadioBtnDez.isSelected()){
+        		return "dec";
+        	}else if(_jRadioBtnBin.isSelected()){
+        		return "bin";
+        	}else{
+        		return null;
+        	}
         }
 }

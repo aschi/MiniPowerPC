@@ -61,21 +61,45 @@ public class Controller implements ControllerIfc {
 
 	}
 
+	@Override
 	public void updateGUI() {
-		gui.setAkku(String.valueOf(emu.getAkku().getBinaryString()));
+		gui.setAkku((gui.getBinDec() == "dec") ? String.valueOf(emu.getAkku().getNumericValue()) : String.valueOf(emu.getAkku().getBinaryString()));
 		if (emu.getInstructionReg() != null) {
 			gui.setBefReg(emu.getInstructionReg().toString(), emu
 					.getInstructionReg().getBinaryString());
 		}
 		gui.setBefZ(String.valueOf(emu.getInstructionCounter()));
-		gui.setReg1(String.valueOf(emu.getRegister()[1].getBinaryString()));
-		gui.setReg2(String.valueOf(emu.getRegister()[2].getBinaryString()));
-		gui.setReg3(String.valueOf(emu.getRegister()[3].getBinaryString()));
+		gui.setReg1(gui.getBinDec().equals("dec") ? String.valueOf(emu.getRegister()[1].getNumericValue()) : String.valueOf(emu.getRegister()[1].getBinaryString()));
+		gui.setReg2(gui.getBinDec().equals("dec") ? String.valueOf(emu.getRegister()[2].getNumericValue()) : String.valueOf(emu.getRegister()[2].getBinaryString()));
+		gui.setReg3(gui.getBinDec().equals("dec") ? String.valueOf(emu.getRegister()[3].getNumericValue()) : String.valueOf(emu.getRegister()[3].getBinaryString()));
+		
 		gui.setCarryBit(String.valueOf(emu.getCarryFlag()));
 		gui.setCountBef(String.valueOf(emu.getStepCounter()));
 		gui.setMemoryEntries(emu.getMemory());
 	}
+	
+	@Override
+	public void runSimulationSlow(){
+		new Thread(simulationSlow).start();
+	}
 
+	//Simulation slow thread
+	private Runnable simulationSlow = new Runnable(){
+		@Override
+		public void run() {
+			while(emu.getInstructionReg() != null){
+				emu.nextStep();
+				updateGUI();
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	};
+	
 	@Override
 	public void runSimulation() {
 		emu.run();

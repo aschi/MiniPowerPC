@@ -12,7 +12,9 @@ import java.io.File;
  */
 public interface ControllerIfc {
     public void runSimulation();
+    public void runSimulationSlow();
     public void nextStep();
+    public void updateGUI();
     public void loadProgramm(File inProgramm)throws IllegalArgumentException;
     public void setMultiplicationOP(int inMemoryPos1, int inOP1, int inMemoryPos2, int inOP2);
 }
