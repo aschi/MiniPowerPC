@@ -1,5 +1,7 @@
 package ch.hszt.MiniPowerPC;
 
+import ch.hszt.MiniPowerPC.helper.Helper;
+
 
 public class MiniPowerPC {
 	public final static int START_OF_INSTR_REG = 100;
@@ -84,6 +86,15 @@ public class MiniPowerPC {
 			stepCounter++;
 			getNextInstruction();
 		}
+		
+		if(memory[504] != null && memory[506] != null){
+			String resultString = String.valueOf(memory[506].getBinaryString()) + (String.valueOf(memory[504].getBinaryString())).substring(1);
+			System.out.println("Result (memory[504-507]):");
+			System.out.println("Binary: " + resultString);
+			System.out.println("Decimal: " + Helper.binaryCharArrayToInt(resultString.toCharArray(), true));
+		}
+		
+		
 	}
 	
 	/**
