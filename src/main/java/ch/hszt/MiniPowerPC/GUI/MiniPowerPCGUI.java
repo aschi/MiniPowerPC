@@ -100,6 +100,7 @@ public class MiniPowerPCGUI extends javax.swing.JFrame implements
         _jPanelExposition = new javax.swing.JPanel();
         _jRadioBtnBin = new javax.swing.JRadioButton();
         _jRadioBtnDez = new javax.swing.JRadioButton();
+        _jBtnSlowModus = new javax.swing.JButton();
         _jMenuBar = new javax.swing.JMenuBar();
         _jMenuFile = new javax.swing.JMenu();
         _jMenuItemLoadPrg = new javax.swing.JMenuItem();
@@ -223,7 +224,7 @@ public class MiniPowerPCGUI extends javax.swing.JFrame implements
             }
         });
 
-        _jBtnCancel.setMnemonic(1);
+        _jBtnCancel.setMnemonic('\u0001');
         _jBtnCancel.setText("Cancel");
         _jBtnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -517,6 +518,13 @@ public class MiniPowerPCGUI extends javax.swing.JFrame implements
                 .addComponent(_jRadioBtnDez))
         );
 
+        _jBtnSlowModus.setText("Slow Modus");
+        _jBtnSlowModus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _jBtnSlowModusActionPerformed(evt);
+            }
+        });
+
         _jMenuFile.setText("File");
 
         _jMenuItemLoadPrg.setText("Load Programm");
@@ -568,7 +576,9 @@ public class MiniPowerPCGUI extends javax.swing.JFrame implements
                         .addComponent(_jPanelMemory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(_jBtnNextStep)
-                        .addGap(29, 29, 29)
+                        .addGap(18, 18, 18)
+                        .addComponent(_jBtnSlowModus)
+                        .addGap(18, 18, 18)
                         .addComponent(_jBtnRun, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -603,6 +613,7 @@ public class MiniPowerPCGUI extends javax.swing.JFrame implements
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(_jBtnRun)
+                    .addComponent(_jBtnSlowModus)
                     .addComponent(_jBtnNextStep))
                 .addContainerGap())
         );
@@ -676,6 +687,11 @@ private void setResultLblText(){
 private void _jTxtDOP2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event__jTxtDOP2KeyPressed
     setResultLblText();
 }//GEN-LAST:event__jTxtDOP2KeyPressed
+
+private void _jBtnSlowModusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__jBtnSlowModusActionPerformed
+    _controller.nextStep();
+    //TODO Schleife, die alle Schritte durchläuft, auf dem controller nextStep() aufruft und dann eine gewisse Zeit wartet bis der nächste Schritt aufgerufen wird
+}//GEN-LAST:event__jBtnSlowModusActionPerformed
 
 	private void _jBtnRunActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event__jBtnRunActionPerformed
 		_controller.runSimulation();
@@ -768,6 +784,7 @@ private void _jTxtDOP2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
     private javax.swing.JButton _jBtnNextStep;
     private javax.swing.JButton _jBtnRun;
     private javax.swing.JButton _jBtnSet;
+    private javax.swing.JButton _jBtnSlowModus;
     private javax.swing.JDialog _jDialogLoadPrg;
     private javax.swing.JDialog _jDialogMul;
     private javax.swing.JFileChooser _jFileChooser;
