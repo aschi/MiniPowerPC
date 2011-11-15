@@ -3,6 +3,7 @@ package ch.hszt.MiniPowerPC;
 import java.io.File;
 
 import ch.hszt.MiniPowerPC.GUI.MiniPowerPCGUI;
+import ch.hszt.MiniPowerPC.helper.Helper;
 import ch.hszt.MiniPowerPC.helper.MemoryParser;
 
 public class Controller implements ControllerIfc {
@@ -97,6 +98,13 @@ public class Controller implements ControllerIfc {
 					e.printStackTrace();
 				}
 			}
+                        
+                        if(emu.getMemory()[504] != null && emu.getMemory()[506] != null){
+                            String resultString = String.valueOf(emu.getMemory()[506].getBinaryString()) + (String.valueOf(emu.getMemory()[504].getBinaryString())).substring(1);
+                            System.out.println("Result (memory[504-507]):");
+                            System.out.println("Binary: " + resultString);
+                            System.out.println("Decimal: " + Helper.binaryCharArrayToInt(resultString.toCharArray(), true));
+                        }
 		}
 	};
 	
